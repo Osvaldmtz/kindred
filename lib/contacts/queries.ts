@@ -255,6 +255,116 @@ export async function getCachedBrief(
   };
 }
 
+// ─── Dashboard queries ────────────────────────────────────────────────────────
+
+export async function getSuggestedActions(
+  limit = 10
+): Promise<ContactWithStatus[]> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return [];
+
+  const { data } = await supabase
+    .from("contacts_with_status")
+    .select("*")
+    .eq("user_id", user.id)
+    .eq("is_due", true)
+    .order("days_since_last_interaction", { ascending: false })
+    .limit(limit);
+
+  return (data ?? []) as ContactWithStatus[];
+}
+
+export type BirthdayContact = ContactWithStatus & {
+  daysUntilBirthday: number;
+};
+
+export async function getBirthdaysThisWeek(): Promise<BirthdayContact[]> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return [];
+
+  const { data } = await supabase
+    .from("contacts_with_status")
+    .select("*")
+    .eq("user_id", user.id)
+    .not("birthday", "is", null);
+
+  if (!data?.length) return [];
+
+  const today = new Date();
+  const todayMD = today.getMonth() * 100 + today.getDate();
+
+  const results: BirthdayContact[] = [];
+
+  for (const contact of data) {
+    if (!contact.birthday) continue;
+    const [, monthStr, dayStr] = contact.birthday.split("-");
+    const bMonth = parseInt(monthStr, 10) - 1;
+    const bDay = parseInt(dayStr, 10);
+
+    // Build birthday date for this year
+    const birthdayThisYear = new Date(today.getFullYear(), bMonth, bDay);
+    // If birthday already passed this year, check next year
+    const bMD = bMonth * 100 + bDay;
+    if (bMD < todayMD) {
+      birthdayThisYear.setFullYear(today.getFullYear() + 1);
+    }
+
+    const diffMs = birthdayThisYear.getTime() - today.setHours(0, 0, 0, 0);
+    const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+    if (diffDays >= 0 && diffDays <= 7) {
+      results.push({ ...(contact as ContactWithStatus), daysUntilBirthday: diffDays });
+    }
+  }
+
+  return results.sort((a, b) => a.daysUntilBirthday - b.daysUntilBirthday);
+}
+
+export type DashboardStats = {
+  total_contacts: number;
+  due_count: number;
+  birthdays_this_week_count: number;
+};
+
+export async function getDashboardStats(): Promise<DashboardStats> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { total_contacts: 0, due_count: 0, birthdays_this_week_count: 0 };
+
+  const { data } = await supabase
+    .from("contacts_with_status")
+    .select("is_due, birthday")
+    .eq("user_id", user.id);
+
+  if (!data?.length) return { total_contacts: 0, due_count: 0, birthdays_this_week_count: 0 };
+
+  const today = new Date();
+  const todayMD = today.getMonth() * 100 + today.getDate();
+  let birthdayCount = 0;
+
+  for (const row of data) {
+    if (!row.birthday) continue;
+    const [, m, d] = row.birthday.split("-");
+    const bMD = (parseInt(m, 10) - 1) * 100 + parseInt(d, 10);
+    const diff = bMD >= todayMD ? bMD - todayMD : (12 * 100 + 31) - todayMD + bMD;
+    if (diff <= 7) birthdayCount++;
+  }
+
+  return {
+    total_contacts: data.length,
+    due_count: data.filter((r) => r.is_due).length,
+    birthdays_this_week_count: birthdayCount,
+  };
+}
+
 // ─── Delete ───────────────────────────────────────────────────────────────────
 
 export async function deleteContact(id: string): Promise<void> {
