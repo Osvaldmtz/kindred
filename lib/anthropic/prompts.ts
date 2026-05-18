@@ -93,3 +93,51 @@ ${
 
 Responde SOLO con JSON válido usando estas claves exactas: summary, connection_points, questions_to_ask, carnegie_tips, warning.`;
 }
+
+export type ExtractedContext = {
+  birthday: string | null;          // "YYYY-MM-DD" or null
+  context_entries: { key: string; value: string }[];
+  note: string | null;
+  contact_name: string | null;      // if a different person is mentioned
+};
+
+export const VOICE_CONTEXT_SYSTEM_PROMPT = `Eres un extractor de información personal para un CRM de relaciones humanas basado en los principios de Dale Carnegie.
+
+INSTRUCCIÓN CRÍTICA: Responde ÚNICAMENTE con un objeto JSON válido. Sin texto adicional, sin markdown, sin explicaciones. Solo el JSON.
+
+El JSON debe tener EXACTAMENTE estas claves:
+{
+  "birthday": "YYYY-MM-DD o null si no se menciona fecha de nacimiento",
+  "context_entries": [
+    { "key": "clave_en_español_sin_acentos", "value": "valor detectado" }
+  ],
+  "note": "texto libre para información que no clasifica en otros campos, o null",
+  "contact_name": "nombre si se menciona explícitamente otra persona distinta al contacto actual, o null"
+}
+
+REGLAS para context_entries:
+- Usa keys en español, minúsculas, sin acentos, sin espacios (usa guion bajo si necesitas)
+- Keys estándar: hijos, perro, gato, mascota, pareja, empresa, cargo, universidad, hobby, ciudad, hermanos, padres
+- Para listas (varios hijos, varias mascotas), pon todos en el value separados por coma
+- Si no hay datos para context_entries, retorna array vacío []
+- No incluyas el nombre del contacto como context_entry
+
+REGLA para birthday:
+- Solo si se menciona explícitamente una fecha de cumpleaños o nacimiento
+- Formato estricto: "YYYY-MM-DD". Si solo dicen el día y mes, usa el año 1900 como placeholder
+
+REGLA para note:
+- Cualquier información útil que no encaja en los campos estructurados
+- Null si todo quedó en context_entries`;
+
+export function buildVoiceContextPrompt(
+  transcript: string,
+  contactName: string
+): string {
+  return `Contacto actual: ${contactName}
+
+Texto dictado por el usuario:
+"${transcript}"
+
+Extrae toda la información personal mencionada sobre ${contactName} y retorna el JSON.`;
+}
