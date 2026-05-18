@@ -33,7 +33,17 @@ export async function sendMagicLink(
   });
 
   if (error) {
-    return { status: "error", message: "No pudimos enviar el enlace. Intenta de nuevo." };
+    const isRateLimit =
+      error.status === 429 ||
+      error.message?.toLowerCase().includes("rate limit") ||
+      error.code === "over_email_send_rate_limit";
+
+    return {
+      status: "error",
+      message: isRateLimit
+        ? "Demasiados intentos. Espera unos minutos antes de solicitar otro enlace."
+        : "No pudimos enviar el enlace. Verifica el email e intenta de nuevo.",
+    };
   }
 
   return { status: "sent", email };

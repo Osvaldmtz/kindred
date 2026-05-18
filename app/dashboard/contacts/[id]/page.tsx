@@ -1,35 +1,15 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, MessageCircle, Phone, Zap, Calendar, MapPin, Star, Pencil, Plus } from "lucide-react";
+import { ArrowLeft, MessageCircle, Phone, Zap, Calendar, MapPin, Star, Pencil } from "lucide-react";
 import { getContact } from "@/lib/contacts/queries";
 import { AvatarWithColor } from "@/components/shared/avatar-with-color";
 import { getRelationshipLabel } from "@/components/shared/relationship-badge";
 import { FrequencyCounter } from "@/components/contacts/frequency-counter";
-import type { RelationshipType, InteractionType } from "@/types/database";
-import { format, parseISO, formatDistanceToNow } from "date-fns";
+import { InteractionTimeline } from "@/components/contacts/interaction-timeline";
+import { ContactDetailFab } from "@/components/contacts/contact-detail-fab";
+import type { RelationshipType } from "@/types/database";
+import { format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
-
-const INTERACTION_ICONS: Record<InteractionType, string> = {
-  call: "📞",
-  message: "💬",
-  whatsapp: "📱",
-  email: "✉️",
-  meeting: "🤝",
-  coffee: "☕",
-  event: "📅",
-  other: "⭐",
-};
-
-const INTERACTION_LABELS: Record<InteractionType, string> = {
-  call: "Llamada",
-  message: "Mensaje",
-  whatsapp: "WhatsApp",
-  email: "Email",
-  meeting: "Reunión",
-  coffee: "Café",
-  event: "Evento",
-  other: "Otro",
-};
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -193,13 +173,13 @@ export default async function ContactDetailPage({ params }: Props) {
                 <span className="text-sm font-semibold text-[#9c3e21]">Mensaje</span>
               </div>
             )}
-            <button className="flex flex-col items-center gap-2 p-4 rounded-xl bg-[#fbf2ed] hover:bg-[#efe6e2] transition-colors group opacity-60 cursor-not-allowed">
-              <Zap className="w-6 h-6 text-[#9c3e21] group-hover:scale-110 transition-transform" strokeWidth={1.5} />
+            <button className="flex flex-col items-center gap-2 p-4 rounded-xl bg-[#fbf2ed] opacity-50 cursor-not-allowed">
+              <Zap className="w-6 h-6 text-[#9c3e21]" strokeWidth={1.5} />
               <span className="text-sm font-semibold text-[#9c3e21]">Brief IA</span>
             </button>
           </div>
 
-          {/* Brief IA placeholder card */}
+          {/* Brief IA placeholder */}
           <div className="bg-[#fbf2ed] rounded-[20px] p-6 text-left mb-6">
             <div className="flex items-center gap-2 mb-2">
               <Zap className="w-5 h-5 text-[#9c3e21]" strokeWidth={1.5} />
@@ -244,43 +224,7 @@ export default async function ContactDetailPage({ params }: Props) {
             <h3 className="text-xl font-semibold text-[#1f1b18] mb-4">
               Historial reciente
             </h3>
-            {recentInteractions.length === 0 ? (
-              <div className="bg-[#fbf2ed] rounded-xl p-6 text-center">
-                <p className="text-sm text-[#56423c]">
-                  Aún no hay interacciones registradas.
-                </p>
-                <p className="text-xs text-[#8a726b] mt-1">
-                  Usa el botón + para registrar un contacto.
-                </p>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                {recentInteractions.map((interaction) => {
-                  const itype = interaction.type as InteractionType;
-                  const date = parseISO(interaction.occurred_at);
-                  return (
-                    <div
-                      key={interaction.id}
-                      className="p-4 bg-[#fbf2ed] rounded-xl flex items-start gap-4"
-                    >
-                      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm text-lg">
-                        {INTERACTION_ICONS[itype] ?? "⭐"}
-                      </div>
-                      <div className="min-w-0">
-                        <p className="font-semibold text-[#1f1b18] text-sm">
-                          {INTERACTION_LABELS[itype] ?? itype}
-                          {interaction.note ? ` — ${interaction.note}` : ""}
-                        </p>
-                        <p className="text-xs text-[#56423c] mt-0.5">
-                          {format(date, "d 'de' MMMM", { locale: es })} ·{" "}
-                          {formatDistanceToNow(date, { addSuffix: true, locale: es })}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+            <InteractionTimeline interactions={recentInteractions} />
           </div>
 
           {/* Notes */}
@@ -297,14 +241,12 @@ export default async function ContactDetailPage({ params }: Props) {
         </div>
       </div>
 
-      {/* FAB — nueva interacción (placeholder) */}
-      <button
-        disabled
-        title="Disponible en Fase 4"
-        className="fixed bottom-24 right-6 w-14 h-14 bg-[#9c3e21] text-white rounded-full shadow-lg flex items-center justify-center z-50 opacity-90 cursor-not-allowed"
-      >
-        <Plus className="w-7 h-7" strokeWidth={1.5} />
-      </button>
+      {/* FAB — registrar interacción */}
+      <ContactDetailFab
+        contactId={contact.id}
+        contactName={contact.name}
+        contactPhotoUrl={contact.photo_url}
+      />
     </div>
   );
 }
