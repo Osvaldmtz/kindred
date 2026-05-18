@@ -75,11 +75,14 @@ export function VoiceRecorderSheet({
   const [seconds, setSeconds] = useState(0);
   const recognitionRef = useRef<SpeechRecognitionInstance | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  /** Sincronizado en cada `onresult` — evita mandar a la API un string desactualizado respecto al último evento de voz. */
+  const latestTranscriptRef = useRef("");
 
   // Reset on close
   useEffect(() => {
     if (!open) {
       stopRecognition();
+      latestTranscriptRef.current = "";
       setTranscript("");
       setSeconds(0);
       setState("idle");
@@ -117,19 +120,19 @@ export function VoiceRecorderSheet({
     recognition.interimResults = true;
     recognition.lang = "es-MX";
 
-    let finalTranscript = "";
+    latestTranscriptRef.current = "";
 
     recognition.onresult = (event: SpeechRecognitionEventLocal) => {
-      let interim = "";
-      for (let i = event.resultIndex; i < event.results.length; i++) {
+      // Reconstruir desde 0 evita duplicar prefijos en Safari iOS, donde varios
+      // resultados interinos en un mismo evento pueden repetir la misma hipótesis.
+      let line = "";
+      for (let i = 0; i < event.results.length; i++) {
         const result = event.results[i];
-        if (result.isFinal) {
-          finalTranscript += result[0].transcript + " ";
-        } else {
-          interim += result[0].transcript;
-        }
+        line += result[0].transcript;
       }
-      setTranscript(finalTranscript + interim);
+      const next = line.trimEnd();
+      latestTranscriptRef.current = next;
+      setTranscript(next);
     };
 
     recognition.onerror = (event: SpeechRecognitionErrorEventLocal) => {
@@ -151,7 +154,7 @@ export function VoiceRecorderSheet({
     stopRecognition();
     setState("analyzing");
 
-    const currentTranscript = transcript.trim();
+    const currentTranscript = latestTranscriptRef.current.trim();
     if (currentTranscript.length < 5) {
       toast.error("El texto grabado es muy corto. Intenta hablar más.");
       setState("idle");
