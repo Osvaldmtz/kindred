@@ -8,6 +8,7 @@ import { FrequencyCounter } from "@/components/contacts/frequency-counter";
 import { InteractionTimeline } from "@/components/contacts/interaction-timeline";
 import { ContactDetailFab } from "@/components/contacts/contact-detail-fab";
 import { BriefIAButton, BriefCard } from "@/components/contacts/contact-brief-widget";
+import { VoiceDictateButton } from "@/components/contacts/voice-dictate-button";
 import type { RelationshipType } from "@/types/database";
 import { format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
@@ -146,7 +147,7 @@ export default async function ContactDetailPage({ params }: Props) {
           </div>
 
           {/* Action row */}
-          <div className="grid grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
             {contact.phone ? (
               <a
                 href={`tel:${contact.phone}`}
@@ -185,6 +186,10 @@ export default async function ContactDetailPage({ params }: Props) {
               contactId={contact.id}
               contactName={contact.name}
               contactPhotoUrl={contact.photo_url}
+            />
+            <VoiceDictateButton
+              contactId={contact.id}
+              contactName={contact.name}
             />
           </div>
 

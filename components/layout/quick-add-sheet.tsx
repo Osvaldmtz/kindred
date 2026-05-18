@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Drawer } from "vaul";
-import { MessageSquarePlus, UserPlus, Sparkles, Clock, X } from "lucide-react";
+import { MessageSquarePlus, UserPlus, Sparkles, Mic, X } from "lucide-react";
 import { InteractionSheet } from "@/components/contacts/interaction-sheet";
+import { VoiceDictateButton } from "@/components/contacts/voice-dictate-button";
 import { BriefSheet } from "@/components/contacts/brief-sheet";
 import { AvatarWithColor } from "@/components/shared/avatar-with-color";
 import { getDueContacts } from "@/lib/interactions/queries";
@@ -90,13 +91,6 @@ export function QuickAddSheet({ open, onOpenChange }: QuickAddSheetProps) {
       onClick: handleGenerateBrief,
       active: true,
     },
-    {
-      icon: Clock,
-      label: "Recordatorio",
-      description: "Próximamente en v2",
-      onClick: () => {},
-      active: false,
-    },
   ] as const;
 
   return (
@@ -156,6 +150,31 @@ export function QuickAddSheet({ open, onOpenChange }: QuickAddSheetProps) {
                     </button>
                   );
                 })}
+
+                {/* Dictar nota — 4th action */}
+                {selectedContact ? (
+                  <VoiceDictateButton
+                    contactId={selectedContact.id}
+                    contactName={selectedContact.name}
+                  />
+                ) : (
+                  <button
+                    onClick={() => { onOpenChange(false); router.push("/dashboard/contacts"); }}
+                    className="flex flex-col items-start gap-2 p-4 rounded-[20px] text-left bg-[#f5ece8] hover:bg-[#eae1dc] active:scale-[0.98] transition-colors"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm">
+                      <Mic className="w-5 h-5 text-[#9c3e21]" strokeWidth={1.5} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-[#1f1b18] leading-tight">
+                        Dictar nota
+                      </p>
+                      <p className="text-xs text-[#8a726b] mt-0.5">
+                        Elige un contacto
+                      </p>
+                    </div>
+                  </button>
+                )}
               </div>
 
               {/* Suggested contacts */}
