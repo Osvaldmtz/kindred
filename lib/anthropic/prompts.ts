@@ -125,18 +125,21 @@ ESQUEMA JSON exacto (usa null para campos vacíos):
 
 REGLAS para context_entries:
 - Usa keys en español, minúsculas, sin acentos, sin espacios (usa guion bajo si necesitas)
-- Keys estándar: hijos, perro, gato, mascota, pareja, empresa, cargo, universidad, hobby, ciudad, hermanos, padres
+- Keys estándar: hijos, perro, gato, mascota, pareja, empresa, cargo, universidad, hobby, ciudad, hermanos, padres, interes
+- Cada value debe ser CORTO (idealmente una frase breve o etiqueta). Ej. interes: "Conferencias Rotary", ciudad: "Cancún"
 - Para listas (varios hijos, varias mascotas), pon todos en el value separados por coma
 - Si no hay datos para context_entries, retorna array vacío []
 - No incluyas el nombre del contacto como context_entry
+- NO repitas en note el mismo texto que ya pusiste en context_entries; si necesitas contexto largo o varias frases relacionadas, usa solo "note" y deja intereses/ciudad en entradas muy breves
 
 REGLA para birthday:
 - Solo si se menciona explícitamente una fecha de cumpleaños o nacimiento
 - Formato estricto: "YYYY-MM-DD". Si solo dicen el día y mes, usa el año 1900 como placeholder
 
 REGLA para note:
-- Cualquier información útil que no encaja en los campos estructurados
-- Null si todo quedó en context_entries`;
+- Usa "note" solo para contexto narrativo largo o detalles que no caben en una etiqueta corta
+- Null si un par de entradas cortas en context_entries ya bastan (sin duplicar)
+- Si usas note con un párrafo, no repitas ese párrafo en ningún value de context_entries
 
 export function buildVoiceContextPrompt(
   transcript: string,

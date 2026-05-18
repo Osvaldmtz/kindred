@@ -12,15 +12,10 @@ import { VoiceDictateButton } from "@/components/contacts/voice-dictate-button";
 import type { RelationshipType } from "@/types/database";
 import { format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
+import { ContactContextSection } from "@/components/contacts/contact-context-section";
 
 interface Props {
   params: Promise<{ id: string }>;
-}
-
-function formatContextKeyLabel(key: string): string {
-  return key
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 export const dynamic = "force-dynamic";
@@ -227,37 +222,7 @@ export default async function ContactDetailPage({ params }: Props) {
             </div>
           )}
 
-          {/* Context from voice / manual key-value rows (Supabase contact_context) */}
-          {contactContextRows.length > 0 && (
-            <div className="mb-6 w-full text-left">
-              <h3 className="text-xl font-semibold text-[#1f1b18] mb-3">
-                Contexto
-              </h3>
-              <p className="text-xs text-[#8a726b] mb-3">
-                Datos guardados desde dictado u otras entradas estructuradas.
-              </p>
-              <ul className="flex flex-col gap-2">
-                {contactContextRows.map((row) => (
-                  <li
-                    key={row.id}
-                    className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-3 bg-[#f5ece8] rounded-[20px] px-4 py-3 border border-[#e8e0dc]"
-                  >
-                    <span className="text-xs font-semibold text-[#9c3e21] uppercase tracking-wide shrink-0 min-w-[7rem]">
-                      {formatContextKeyLabel(row.key)}
-                    </span>
-                    <span className="text-sm text-[#1f1b18] leading-relaxed flex-1">
-                      {row.value}
-                    </span>
-                    {row.source === "voice" && (
-                      <span className="text-[10px] font-medium text-[#8a726b] sm:ml-auto shrink-0">
-                        Dictado
-                      </span>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+          <ContactContextSection rows={contactContextRows} />
 
           {/* Frequency + health */}
           <div className="mb-6 text-left">
