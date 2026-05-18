@@ -45,7 +45,7 @@ export async function POST(
       .single();
 
     if (cached?.content) {
-      console.log(`[Brief] Cache hit for contact ${contactId}`);
+      if (process.env.NODE_ENV === "development") console.log(`[Brief] Cache hit for contact ${contactId}`);
       return NextResponse.json({
         brief: cached.content as BriefResponse,
         cached: true,
@@ -63,7 +63,7 @@ export async function POST(
     .single();
 
   if (contactError || !contact) {
-    console.error("[Brief] Contact not found:", contactError?.message);
+    if (process.env.NODE_ENV === "development") console.error("[Brief] Contact not found:", contactError?.message);
     return NextResponse.json({ error: "Contact not found" }, { status: 404 });
   }
 
@@ -125,9 +125,9 @@ export async function POST(
     }
 
     brief = parsed;
-    console.log(`[Brief] Generated for ${contact.name} (${contactId})`);
+    if (process.env.NODE_ENV === "development") console.log(`[Brief] Generated for ${contact.name} (${contactId})`);
   } catch (err) {
-    console.error("[Brief] AI generation failed:", err);
+    if (process.env.NODE_ENV === "development") console.error("[Brief] AI generation failed:", err);
     brief = FALLBACK_BRIEF;
   }
 
@@ -148,7 +148,7 @@ export async function POST(
       expires_at: expiresAt,
     });
   } catch (cacheErr) {
-    console.error("[Brief] Failed to save cache:", cacheErr);
+    if (process.env.NODE_ENV === "development") console.error("[Brief] Failed to save cache:", cacheErr);
     // Non-fatal — return brief anyway
   }
 

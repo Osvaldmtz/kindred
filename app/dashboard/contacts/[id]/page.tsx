@@ -41,10 +41,14 @@ export default async function ContactDetailPage({ params }: Props) {
       )
     : null;
 
-  const healthPercent =
-    daysSince !== null && contact.target_frequency_days > 0
-      ? Math.max(0, 100 - (daysSince / contact.target_frequency_days) * 100)
-      : 0;
+  const healthPercent = (() => {
+    if (daysSince === null) return 0;
+    const freq = contact.target_frequency_days > 0 ? contact.target_frequency_days : 30;
+    if (daysSince <= freq) return 100;
+    if (daysSince <= freq * 1.5) return 75;
+    if (daysSince <= freq * 2) return 50;
+    return 25;
+  })();
 
   const lastContactLabel =
     daysSince === null

@@ -4,6 +4,7 @@ import { BottomNav } from "@/components/layout/bottom-nav";
 import { Sidebar } from "@/components/layout/sidebar";
 import { getInitials } from "@/lib/utils";
 import { Toaster } from "sonner";
+import { PWAInstallPrompt } from "@/components/shared/pwa-install-prompt";
 
 export default async function DashboardLayout({
   children,
@@ -36,6 +37,9 @@ export default async function DashboardLayout({
 
       {/* Mobile: bottom nav */}
       <BottomNav />
+
+      {/* PWA install prompt (30s delay, dismissable) */}
+      <PWAInstallPrompt />
     </>
   );
 }
