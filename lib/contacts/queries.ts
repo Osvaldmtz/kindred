@@ -435,3 +435,23 @@ export async function getContactContext(
 
   return (data ?? []) as ContactContext[];
 }
+
+export async function updateContactBirthday(
+  contactId: string,
+  birthday: string
+): Promise<void> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error("Not authenticated");
+
+  const { error } = await supabase
+    .from("contacts")
+    .update({ birthday })
+    .eq("id", contactId)
+    .eq("user_id", user.id);
+
+  if (error) throw new Error(error.message);
+  revalidatePath(`/dashboard/contacts/${contactId}`);
+}
