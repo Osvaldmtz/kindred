@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { getInitials } from "@/lib/utils";
 import { format } from "date-fns";
@@ -55,18 +56,18 @@ export default async function DashboardPage() {
             </p>
           </div>
           <div className="mt-2 flex flex-col gap-2 w-full max-w-xs">
-            <a
+            <Link
               href="/dashboard/contacts/new"
               className="h-12 rounded-2xl bg-primary text-white font-semibold text-sm flex items-center justify-center gap-2 transition-all hover:bg-[#802a0d]"
             >
               Agregar tu primer contacto →
-            </a>
-            <a
+            </Link>
+            <Link
               href="/dashboard/contacts"
               className="h-12 rounded-2xl bg-card text-foreground font-semibold text-sm flex items-center justify-center gap-2 transition-all hover:bg-[#efe6e2]"
             >
               Ver contactos
-            </a>
+            </Link>
           </div>
         </div>
       </main>
