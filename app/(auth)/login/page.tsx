@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { LoginForm } from "./login-form";
+import { GoogleSignInButton } from "@/components/auth/google-sign-in-button";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
@@ -29,10 +30,23 @@ export default function LoginPage() {
                 Bienvenido de nuevo
               </h2>
               <p className="mt-1 text-sm text-muted-foreground">
-                Te enviamos un enlace mágico a tu correo, sin contraseñas.
+                Accede con tu cuenta de Google, rápido y seguro.
               </p>
             </div>
 
+            {/* Primary: Google OAuth */}
+            <GoogleSignInButton />
+
+            {/* Divider */}
+            <div className="flex items-center gap-3">
+              <div className="flex-1 h-px bg-[#e8e0dc]" />
+              <span className="text-xs text-muted-foreground font-medium">
+                o continúa con email
+              </span>
+              <div className="flex-1 h-px bg-[#e8e0dc]" />
+            </div>
+
+            {/* Fallback: Magic Link */}
             <LoginForm />
 
             <p className="text-center text-xs text-muted-foreground">
