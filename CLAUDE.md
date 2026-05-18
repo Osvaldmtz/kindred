@@ -15,6 +15,20 @@
 
 ---
 
+## DESIGN SOURCE OF TRUTH
+
+- **Colores oficiales**: `DESIGN.md` en la raíz del proyecto (NO usar los HEX del PRD.md — están desactualizados)
+- **Layouts oficiales**: `design/0X-<nombre>/screen.png` (mockup visual) + `design/0X-<nombre>/code.html` (referencia Tailwind)
+- **Pantallas disponibles**:
+  - `design/01-hoy/` → Dashboard "Hoy"
+  - `design/02-detalle-contacto/` → Detalle de Contacto
+  - `design/03-brief-ia/` → Brief Sheet (IA)
+  - `design/04-lista-contactos/` → Lista de Contactos
+  - `design/05-nueva-interaccion/` → Nueva Interacción Sheet
+- **Regla obligatoria**: Cuando construyas cualquier pantalla, SIEMPRE lee primero el `screen.png` + `code.html` correspondiente antes de generar código
+
+---
+
 ## CRITICAL RULES (NEVER VIOLATE)
 
 ### Code
@@ -33,12 +47,13 @@
 - **ONLY** Tailwind utility classes — nunca CSS-in-JS o styled-components
 - **ONLY** shadcn/ui primitives — nunca Material UI, Chakra, Ant Design
 - **MATCH** los HEX exactos del design system:
-  - Terracota primary: `#C65D3D`
-  - Terracota light: `#FCF1EC`
+  - Terracota primary: `#9c3e21`
+  - Terracota light: `#fbf2ed`
   - Yellow accent: `#FFD33D`
-  - Text primary: `#1A1A1A`
-  - Text secondary: `#6B6B6B`
-  - Card surface: `#F5F4F1`
+  - Text primary: `#1f1b18`
+  - Text secondary: `#56423c`
+  - Card surface: `#f5ece8`
+  - Background: `#fff8f5`
 - **FONT** siempre Plus Jakarta Sans via `next/font`
 - **ICONS** siempre Lucide React, stroke-width 1.5px
 
@@ -64,22 +79,22 @@ Cuando generes código UI, sigue estas convenciones:
 
 ```tsx
 // Cards
-className="bg-[#F5F4F1] rounded-[20px] p-5 shadow-[0_4px_12px_rgba(0,0,0,0.04)]"
+className="bg-[#f5ece8] rounded-[20px] p-5"
 
 // Buttons primary
-className="bg-[#C65D3D] hover:bg-[#A0421C] text-white rounded-2xl px-6 py-3 font-semibold"
+className="bg-[#9c3e21] hover:bg-[#802a0d] text-white rounded-2xl px-6 py-3 font-semibold"
 
 // Solid header
-className="bg-[#C65D3D] text-white px-5 py-6"
+className="bg-[#9c3e21] text-white px-5 py-6"
 
 // Curved panel
-className="bg-white rounded-t-3xl -mt-4 relative z-10"
+className="bg-[#fff8f5] rounded-t-3xl -mt-4 relative z-10"
 
 // Floating chip yellow
-className="bg-[#FFD33D] text-[#1A1A1A] rounded-full px-4 py-2 text-sm font-medium"
+className="bg-[#FFD33D] text-[#1f1b18] rounded-full px-4 py-2 text-sm font-medium"
 
 // Avatar circular
-className="rounded-full w-14 h-14 bg-[#F5F4F1] flex items-center justify-center"
+className="rounded-full w-14 h-14 bg-[#f5ece8] flex items-center justify-center"
 ```
 
 ---
