@@ -11,6 +11,7 @@ import type {
   ContactInterest,
 } from "@/types/database";
 import type { Database } from "@/types/database";
+import type { BriefResponse } from "@/lib/anthropic/prompts";
 
 type DBRelationshipType = Database["public"]["Enums"]["relationship_type"];
 
@@ -222,6 +223,36 @@ export async function updateFrequency(
     .eq("user_id", user.id);
 
   revalidatePath(`/dashboard/contacts/${contactId}`);
+}
+
+// ─── Cached brief (for detail page SSR) ──────────────────────────────────────
+
+export async function getCachedBrief(
+  contactId: string
+): Promise<{ brief: BriefResponse; createdAt: string } | null> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return null;
+
+  const { data } = await supabase
+    .from("contact_briefs")
+    .select("content, generated_at")
+    .eq("contact_id", contactId)
+    .eq("user_id", user.id)
+    .gt("expires_at", new Date().toISOString())
+    .order("generated_at", { ascending: false })
+    .limit(1)
+    .single();
+
+  if (!data?.content) return null;
+
+  return {
+    brief: data.content as BriefResponse,
+    createdAt: data.generated_at,
+  };
 }
 
 // ─── Delete ───────────────────────────────────────────────────────────────────

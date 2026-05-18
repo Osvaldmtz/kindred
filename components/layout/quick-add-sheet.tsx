@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Drawer } from "vaul";
 import { MessageSquarePlus, UserPlus, Sparkles, Clock, X } from "lucide-react";
 import { InteractionSheet } from "@/components/contacts/interaction-sheet";
+import { BriefSheet } from "@/components/contacts/brief-sheet";
 import { AvatarWithColor } from "@/components/shared/avatar-with-color";
 import { getDueContacts } from "@/lib/interactions/queries";
 import type { ContactWithStatus } from "@/types/database";
@@ -25,6 +26,7 @@ export function QuickAddSheet({ open, onOpenChange }: QuickAddSheetProps) {
   const [dueContacts, setDueContacts] = useState<ContactWithStatus[]>([]);
   const [selectedContact, setSelectedContact] = useState<SelectedContact | null>(null);
   const [interactionSheetOpen, setInteractionSheetOpen] = useState(false);
+  const [briefSheetOpen, setBriefSheetOpen] = useState(false);
 
   // Fetch due contacts when sheet opens
   useEffect(() => {
@@ -40,8 +42,19 @@ export function QuickAddSheet({ open, onOpenChange }: QuickAddSheetProps) {
       photoUrl: contact.photo_url,
     });
     onOpenChange(false);
-    // Small delay to let the quick-add sheet close before opening interaction sheet
+    // Small delay to let quick-add sheet close before opening interaction sheet
     setTimeout(() => setInteractionSheetOpen(true), 200);
+  }
+
+  function handleGenerateBrief() {
+    if (selectedContact) {
+      onOpenChange(false);
+      setTimeout(() => setBriefSheetOpen(true), 200);
+    } else {
+      // No contact pre-selected → go to contacts list so user can choose
+      onOpenChange(false);
+      router.push("/dashboard/contacts");
+    }
   }
 
   function handleRegisterInteraction() {
@@ -74,8 +87,8 @@ export function QuickAddSheet({ open, onOpenChange }: QuickAddSheetProps) {
       icon: Sparkles,
       label: "Generar brief",
       description: "Resumen IA del contacto",
-      onClick: () => {},
-      active: false,
+      onClick: handleGenerateBrief,
+      active: true,
     },
     {
       icon: Clock,
@@ -199,6 +212,20 @@ export function QuickAddSheet({ open, onOpenChange }: QuickAddSheetProps) {
           open={interactionSheetOpen}
           onOpenChange={(o) => {
             setInteractionSheetOpen(o);
+            if (!o) setSelectedContact(null);
+          }}
+          contactId={selectedContact.id}
+          contactName={selectedContact.name}
+          contactPhotoUrl={selectedContact.photoUrl}
+        />
+      )}
+
+      {/* Brief sheet triggered from suggested contacts or "Generar brief" */}
+      {selectedContact && (
+        <BriefSheet
+          open={briefSheetOpen}
+          onOpenChange={(o) => {
+            setBriefSheetOpen(o);
             if (!o) setSelectedContact(null);
           }}
           contactId={selectedContact.id}

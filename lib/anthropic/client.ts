@@ -1,5 +1,3 @@
-// Phase 5: AI Brief — Anthropic client
-// Will be implemented in Phase 5
 import Anthropic from "@anthropic-ai/sdk";
 
 let client: Anthropic | null = null;

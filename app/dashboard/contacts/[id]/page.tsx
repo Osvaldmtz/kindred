@@ -1,12 +1,13 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, MessageCircle, Phone, Zap, Calendar, MapPin, Star, Pencil } from "lucide-react";
-import { getContact } from "@/lib/contacts/queries";
+import { ArrowLeft, MessageCircle, Phone, Calendar, MapPin, Star, Pencil } from "lucide-react";
+import { getContact, getCachedBrief } from "@/lib/contacts/queries";
 import { AvatarWithColor } from "@/components/shared/avatar-with-color";
 import { getRelationshipLabel } from "@/components/shared/relationship-badge";
 import { FrequencyCounter } from "@/components/contacts/frequency-counter";
 import { InteractionTimeline } from "@/components/contacts/interaction-timeline";
 import { ContactDetailFab } from "@/components/contacts/contact-detail-fab";
+import { BriefIAButton, BriefCard } from "@/components/contacts/contact-brief-widget";
 import type { RelationshipType } from "@/types/database";
 import { format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
@@ -19,7 +20,10 @@ export const dynamic = "force-dynamic";
 
 export default async function ContactDetailPage({ params }: Props) {
   const { id } = await params;
-  const data = await getContact(id);
+  const [data, cachedBriefData] = await Promise.all([
+    getContact(id),
+    getCachedBrief(id),
+  ]);
 
   if (!data) notFound();
 
@@ -173,28 +177,25 @@ export default async function ContactDetailPage({ params }: Props) {
                 <span className="text-sm font-semibold text-[#9c3e21]">Mensaje</span>
               </div>
             )}
-            <button className="flex flex-col items-center gap-2 p-4 rounded-xl bg-[#fbf2ed] opacity-50 cursor-not-allowed">
-              <Zap className="w-6 h-6 text-[#9c3e21]" strokeWidth={1.5} />
-              <span className="text-sm font-semibold text-[#9c3e21]">Brief IA</span>
-            </button>
+            <BriefIAButton
+              contactId={contact.id}
+              contactName={contact.name}
+              contactPhotoUrl={contact.photo_url}
+            />
           </div>
 
-          {/* Brief IA placeholder */}
-          <div className="bg-[#fbf2ed] rounded-[20px] p-6 text-left mb-6">
-            <div className="flex items-center gap-2 mb-2">
-              <Zap className="w-5 h-5 text-[#9c3e21]" strokeWidth={1.5} />
-              <h2 className="text-sm font-bold text-[#9c3e21] tracking-wide uppercase">
-                Brief de IA
-              </h2>
+          {/* Brief card preview — only when there's a valid cached brief */}
+          {cachedBriefData?.brief && (
+            <div className="mb-6 w-full">
+              <BriefCard
+                contactId={contact.id}
+                contactName={contact.name}
+                contactPhotoUrl={contact.photo_url}
+                cachedBrief={cachedBriefData.brief}
+                cachedAt={cachedBriefData.createdAt}
+              />
             </div>
-            <p className="text-sm text-[#56423c] mb-4 leading-relaxed">
-              El brief de IA se generará automáticamente con el historial de tus interacciones.
-              Disponible en la Fase 5.
-            </p>
-            <span className="text-sm font-semibold text-[#9c3e21]/50">
-              Próximamente →
-            </span>
-          </div>
+          )}
 
           {/* Interests / Tags */}
           {interests.length > 0 && (
