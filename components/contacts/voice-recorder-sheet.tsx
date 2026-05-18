@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Drawer } from "vaul";
 import { Mic, Square, Loader2, X } from "lucide-react";
 import { toast } from "sonner";
@@ -16,51 +16,25 @@ interface VoiceRecorderSheetProps {
 
 type RecordingState = "idle" | "recording" | "analyzing";
 
-interface SpeechRecognitionAlternative {
-  transcript: string;
-  confidence: number;
-}
-
-interface SpeechRecognitionResult {
-  isFinal: boolean;
-  length: number;
-  [index: number]: SpeechRecognitionAlternative;
-}
-
-interface SpeechRecognitionResultList {
-  length: number;
-  [index: number]: SpeechRecognitionResult;
-}
-
-interface SpeechRecognitionEventLocal extends Event {
-  resultIndex: number;
-  results: SpeechRecognitionResultList;
-}
-
-interface SpeechRecognitionErrorEventLocal extends Event {
-  error: string;
-  message: string;
-}
-
-interface SpeechRecognitionInstance extends EventTarget {
-  continuous: boolean;
-  interimResults: boolean;
-  lang: string;
-  onresult: ((event: SpeechRecognitionEventLocal) => void) | null;
-  onerror: ((event: SpeechRecognitionErrorEventLocal) => void) | null;
-  start(): void;
-  stop(): void;
-}
-
-interface SpeechRecognitionConstructor {
-  new (): SpeechRecognitionInstance;
-}
-
-declare global {
-  interface Window {
-    SpeechRecognition: SpeechRecognitionConstructor;
-    webkitSpeechRecognition: SpeechRecognitionConstructor;
+function pickMimeType(): string | undefined {
+  const candidates = [
+    "audio/webm;codecs=opus",
+    "audio/webm",
+    "audio/mp4",
+    "audio/ogg;codecs=opus",
+  ];
+  for (const t of candidates) {
+    if (typeof MediaRecorder !== "undefined" && MediaRecorder.isTypeSupported(t)) {
+      return t;
+    }
   }
+  return undefined;
+}
+
+function extensionForMime(mime: string): string {
+  if (mime.includes("mp4") || mime.includes("m4a")) return "m4a";
+  if (mime.includes("ogg")) return "ogg";
+  return "webm";
 }
 
 export function VoiceRecorderSheet({
@@ -71,23 +45,36 @@ export function VoiceRecorderSheet({
   onExtracted,
 }: VoiceRecorderSheetProps) {
   const [state, setState] = useState<RecordingState>("idle");
-  const [transcript, setTranscript] = useState("");
   const [seconds, setSeconds] = useState(0);
-  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const chunksRef = useRef<BlobPart[]>([]);
+  const recordedMimeRef = useRef<string>("audio/webm");
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  /** Sincronizado en cada `onresult` — evita mandar a la API un string desactualizado respecto al último evento de voz. */
-  const latestTranscriptRef = useRef("");
+
+  const stopRecorderSilently = useCallback(() => {
+    const rec = mediaRecorderRef.current;
+    mediaRecorderRef.current = null;
+    if (rec && rec.state !== "inactive") {
+      try {
+        rec.stop();
+      } catch {
+        /* ignore */
+      }
+    }
+    streamRef.current?.getTracks().forEach((t) => t.stop());
+    streamRef.current = null;
+    chunksRef.current = [];
+  }, []);
 
   // Reset on close
   useEffect(() => {
     if (!open) {
-      stopRecognition();
-      latestTranscriptRef.current = "";
-      setTranscript("");
+      stopRecorderSilently();
       setSeconds(0);
       setState("idle");
     }
-  }, [open]);
+  }, [open, stopRecorderSilently]);
 
   // Timer
   useEffect(() => {
@@ -101,80 +88,112 @@ export function VoiceRecorderSheet({
     };
   }, [state]);
 
-  function stopRecognition() {
-    if (recognitionRef.current) {
-      recognitionRef.current.stop();
-      recognitionRef.current = null;
-    }
-  }
-
-  function startRecording() {
-    const SR = window.SpeechRecognition ?? window.webkitSpeechRecognition;
-    if (!SR) {
-      toast.error("Tu navegador no soporta grabación. Usa Chrome o Safari.");
-      return;
-    }
-
-    const recognition = new SR();
-    recognition.continuous = true;
-    recognition.interimResults = true;
-    recognition.lang = "es-MX";
-
-    latestTranscriptRef.current = "";
-
-    recognition.onresult = (event: SpeechRecognitionEventLocal) => {
-      // Reconstruir desde 0 evita duplicar prefijos en Safari iOS, donde varios
-      // resultados interinos en un mismo evento pueden repetir la misma hipótesis.
-      let line = "";
-      for (let i = 0; i < event.results.length; i++) {
-        const result = event.results[i];
-        line += result[0].transcript;
-      }
-      const next = line.trimEnd();
-      latestTranscriptRef.current = next;
-      setTranscript(next);
-    };
-
-    recognition.onerror = (event: SpeechRecognitionErrorEventLocal) => {
-      if (event.error === "not-allowed") {
-        toast.error("Necesitamos acceso al micrófono para grabar.");
-      } else {
-        toast.error("Error al grabar. Intenta de nuevo.");
-      }
-      setState("idle");
-    };
-
-    recognition.start();
-    recognitionRef.current = recognition;
-    setSeconds(0);
-    setState("recording");
-  }
-
-  async function stopAndAnalyze() {
-    stopRecognition();
-    setState("analyzing");
-
-    const currentTranscript = latestTranscriptRef.current.trim();
-    if (currentTranscript.length < 5) {
-      toast.error("El texto grabado es muy corto. Intenta hablar más.");
-      setState("idle");
+  async function startRecording() {
+    if (typeof MediaRecorder === "undefined") {
+      toast.error("Tu navegador no permite grabar audio.");
       return;
     }
 
     try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+      });
+      streamRef.current = stream;
+      chunksRef.current = [];
+
+      const mimeType = pickMimeType();
+      const recorder = mimeType
+        ? new MediaRecorder(stream, { mimeType })
+        : new MediaRecorder(stream);
+
+      recordedMimeRef.current = recorder.mimeType || mimeType || "audio/webm";
+
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) chunksRef.current.push(e.data);
+      };
+
+      recorder.start(250);
+      mediaRecorderRef.current = recorder;
+      setSeconds(0);
+      setState("recording");
+    } catch {
+      toast.error("Necesitamos acceso al micrófono para grabar.");
+      streamRef.current?.getTracks().forEach((t) => t.stop());
+      streamRef.current = null;
+      setState("idle");
+    }
+  }
+
+  async function stopAndAnalyze() {
+    const recorder = mediaRecorderRef.current;
+    if (!recorder || recorder.state === "inactive") {
+      setState("idle");
+      return;
+    }
+
+    setState("analyzing");
+
+    const mime = recorder.mimeType || recordedMimeRef.current;
+    await new Promise<void>((resolve) => {
+      recorder.addEventListener("stop", () => resolve(), { once: true });
+      recorder.stop();
+    });
+
+    mediaRecorderRef.current = null;
+    streamRef.current?.getTracks().forEach((t) => t.stop());
+    streamRef.current = null;
+
+    const blob = new Blob(chunksRef.current, { type: mime });
+    chunksRef.current = [];
+
+    if (blob.size < 400) {
+      toast.error("La grabación es muy corta. Habla un poco más.");
+      setState("idle");
+      return;
+    }
+
+    const ext = extensionForMime(mime);
+    const filename = `recording.${ext}`;
+
+    try {
+      const formData = new FormData();
+      formData.append("audio", blob, filename);
+      formData.append("contactId", contactId);
+      formData.append("contactName", contactName);
+
       const res = await fetch("/api/voice-context", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ transcript: currentTranscript, contactId, contactName }),
+        body: formData,
       });
 
-      if (!res.ok) throw new Error("Error del servidor");
+      const raw: unknown = await res.json().catch(() => ({}));
+      const payload =
+        raw && typeof raw === "object" && raw !== null
+          ? (raw as { error?: unknown; extracted?: unknown; transcript?: unknown })
+          : {};
 
-      const { extracted } = (await res.json()) as { extracted: ExtractedContext };
-      onExtracted(extracted, currentTranscript);
+      if (!res.ok) {
+        const errMsg =
+          typeof payload.error === "string" ? payload.error : "Error del servidor";
+        toast.error(errMsg);
+        setState("idle");
+        return;
+      }
+
+      const extracted = payload.extracted as ExtractedContext | undefined;
+      const transcript =
+        typeof payload.transcript === "string" ? payload.transcript : "";
+
+      if (!extracted || transcript.length < 2) {
+        toast.error("Respuesta inválida del servidor.");
+        setState("idle");
+        return;
+      }
+
+      onExtracted(extracted, transcript);
       onOpenChange(false);
     } catch {
-      toast.error("No pudimos analizar el audio. Intenta de nuevo.");
+      toast.error("No pudimos procesar el audio. Intenta de nuevo.");
       setState("idle");
     }
   }
@@ -204,20 +223,32 @@ export function VoiceRecorderSheet({
             </button>
           </div>
 
-          {/* Transcript area */}
+          {/* Info area */}
           <div className="mx-6 mt-5 min-h-[120px] bg-[#faf7f5] rounded-2xl p-4 border border-[#e8e0dc]">
-            {transcript ? (
-              <p className="text-sm text-[#1f1b18] leading-relaxed">{transcript}</p>
-            ) : (
-              <p className="text-sm text-[#8a726b] italic">
-                {state === "recording"
-                  ? "Escuchando… habla con naturalidad"
-                  : "Toca el botón para empezar a hablar…"}
-              </p>
-            )}
+            <p className="text-sm text-[#8a726b] leading-relaxed">
+              {state === "analyzing" ? (
+                <>
+                  <span className="font-medium text-[#56423c]">
+                    Transcribiendo con Whisper
+                  </span>{" "}
+                  y extrayendo datos con IA…
+                </>
+              ) : state === "recording" ? (
+                <>
+                  Grabando audio (sin vista previa).{" "}
+                  <span className="text-[#1f1b18]">Habla con naturalidad</span> y
+                  pulsa detener cuando termines.
+                </>
+              ) : (
+                <>
+                  Al grabar enviamos el audio a{" "}
+                  <span className="font-medium text-[#56423c]">Whisper</span> para
+                  una transcripción fiel; luego Claude organiza la información.
+                </>
+              )}
+            </p>
           </div>
 
-          {/* Recording indicator */}
           {state === "recording" && (
             <div className="flex items-center justify-center gap-2 mt-4">
               <div className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
@@ -229,14 +260,16 @@ export function VoiceRecorderSheet({
 
           {state === "analyzing" && (
             <div className="flex items-center justify-center gap-2 mt-4">
-              <Loader2 className="w-4 h-4 text-[#9c3e21] animate-spin" strokeWidth={1.5} />
+              <Loader2
+                className="w-4 h-4 text-[#9c3e21] animate-spin"
+                strokeWidth={1.5}
+              />
               <span className="text-sm font-semibold text-[#56423c]">
-                Analizando con IA…
+                Procesando…
               </span>
             </div>
           )}
 
-          {/* Footer buttons */}
           <div className="flex gap-3 mx-6 mt-6">
             <button
               onClick={() => onOpenChange(false)}
@@ -248,7 +281,7 @@ export function VoiceRecorderSheet({
             {state === "idle" || state === "recording" ? (
               <button
                 onClick={state === "idle" ? startRecording : stopAndAnalyze}
-                disabled={state === "recording" && transcript.length < 5}
+                disabled={state === "recording" && seconds < 1}
                 className="flex-1 h-12 rounded-full bg-[#9c3e21] text-white font-semibold text-sm flex items-center justify-center gap-2 hover:bg-[#802a0d] disabled:opacity-50 transition-all"
               >
                 {state === "idle" ? (
@@ -265,7 +298,10 @@ export function VoiceRecorderSheet({
               </button>
             ) : (
               <div className="flex-1 h-12 rounded-full bg-[#f5ece8] flex items-center justify-center">
-                <Loader2 className="w-4 h-4 text-[#9c3e21] animate-spin" strokeWidth={1.5} />
+                <Loader2
+                  className="w-4 h-4 text-[#9c3e21] animate-spin"
+                  strokeWidth={1.5}
+                />
               </div>
             )}
           </div>
