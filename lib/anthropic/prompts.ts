@@ -139,7 +139,7 @@ REGLA para birthday:
 REGLA para note:
 - Usa "note" solo para contexto narrativo largo o detalles que no caben en una etiqueta corta
 - Null si un par de entradas cortas en context_entries ya bastan (sin duplicar)
-- Si usas note con un párrafo, no repitas ese párrafo en ningún value de context_entries
+- Si usas note con un párrafo, no repitas ese párrafo en ningún value de context_entries`;
 
 export function buildVoiceContextPrompt(
   transcript: string,
