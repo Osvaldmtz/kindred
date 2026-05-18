@@ -60,6 +60,51 @@ export type Database = {
           },
         ]
       }
+      contact_context: {
+        Row: {
+          contact_id: string
+          created_at: string
+          id: string
+          key: string
+          source: string
+          user_id: string
+          value: string
+        }
+        Insert: {
+          contact_id: string
+          created_at?: string
+          id?: string
+          key: string
+          source?: string
+          user_id: string
+          value: string
+        }
+        Update: {
+          contact_id?: string
+          created_at?: string
+          id?: string
+          key?: string
+          source?: string
+          user_id?: string
+          value?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contact_context_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contact_context_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts_with_status"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contact_interests: {
         Row: {
           contact_id: string
@@ -426,12 +471,5 @@ export type ContactBriefContent = {
   warning: string | null
 }
 
-export type ContactContext = {
-  id: string;
-  user_id: string;
-  contact_id: string;
-  key: string;
-  value: string;
-  source: "voice" | "manual";
-  created_at: string;
-};
+export type ContactContext = Database["public"]["Tables"]["contact_context"]["Row"]
+export type ContactContextInsert = Database["public"]["Tables"]["contact_context"]["Insert"]
