@@ -9,6 +9,7 @@ import type {
   Contact,
   Interaction,
   ContactInterest,
+  ContactContext,
 } from "@/types/database";
 import type { Database } from "@/types/database";
 import type { BriefResponse } from "@/lib/anthropic/prompts";
@@ -385,4 +386,52 @@ export async function deleteContact(id: string): Promise<void> {
 
   revalidatePath("/dashboard/contacts");
   redirect("/dashboard/contacts");
+}
+
+// ─── Contact Context (Voice-to-Context) ───────────────────────────────────────
+
+export async function saveContactContext(
+  contactId: string,
+  entries: { key: string; value: string }[],
+  source: "voice" | "manual" = "voice"
+): Promise<void> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error("Not authenticated");
+
+  if (entries.length === 0) return;
+
+  const rows = entries.map((e) => ({
+    user_id: user.id,
+    contact_id: contactId,
+    key: e.key.toLowerCase().trim(),
+    value: e.value.trim(),
+    source,
+  }));
+
+  const { error } = await supabase.from("contact_context").insert(rows);
+  if (error) throw new Error(error.message);
+
+  revalidatePath(`/dashboard/contacts/${contactId}`);
+}
+
+export async function getContactContext(
+  contactId: string
+): Promise<ContactContext[]> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return [];
+
+  const { data } = await supabase
+    .from("contact_context")
+    .select("*")
+    .eq("contact_id", contactId)
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: true });
+
+  return (data ?? []) as ContactContext[];
 }
