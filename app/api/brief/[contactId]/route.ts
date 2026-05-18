@@ -81,6 +81,16 @@ export async function POST(
     .order("occurred_at", { ascending: false })
     .limit(5);
 
+  // Load contact context (voice dictated info)
+  const { data: contextData } = await supabase
+    .from("contact_context")
+    .select("key, value")
+    .eq("contact_id", contactId)
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: true });
+
+  const contextEntries = (contextData ?? []) as { key: string; value: string }[];
+
   // Build context
   const ctx: ContactContext = {
     name: contact.name,
@@ -105,7 +115,7 @@ export async function POST(
       model: MODEL,
       max_tokens: MAX_TOKENS,
       system: BRIEF_SYSTEM_PROMPT,
-      messages: [{ role: "user", content: buildBriefUserPrompt(ctx) }],
+      messages: [{ role: "user", content: buildBriefUserPrompt(ctx, contextEntries) }],
     });
 
     const rawText =

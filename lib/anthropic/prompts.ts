@@ -67,7 +67,17 @@ export const FALLBACK_BRIEF: BriefResponse = {
   warning: null,
 };
 
-export function buildBriefUserPrompt(ctx: ContactContext): string {
+export function buildBriefUserPrompt(
+  ctx: ContactContext,
+  contextEntries: { key: string; value: string }[] = []
+): string {
+  const contextSection =
+    contextEntries.length > 0
+      ? `\nCONTEXTO PERSONAL CONOCIDO:\n${contextEntries
+          .map((e) => `- ${e.key}: ${e.value}`)
+          .join("\n")}\nUsa esta información para personalizar las preguntas sugeridas.\n`
+      : "";
+
   return `Genera un brief para mi próxima interacción con ${ctx.name}.
 
 CONTEXTO:
@@ -78,7 +88,7 @@ ${ctx.role ? `- Rol: ${ctx.role}` : ""}
 ${ctx.birthday ? `- Cumpleaños: ${ctx.birthday}` : ""}
 - Intereses: ${ctx.interests.join(", ") || "(sin tags)"}
 ${ctx.notes ? `- Notas: ${ctx.notes}` : ""}
-
+${contextSection}
 ÚLTIMAS INTERACCIONES (más reciente primero):
 ${
   ctx.recentInteractions.length > 0
@@ -105,14 +115,12 @@ export const VOICE_CONTEXT_SYSTEM_PROMPT = `Eres un extractor de información pe
 
 INSTRUCCIÓN CRÍTICA: Responde ÚNICAMENTE con un objeto JSON válido. Sin texto adicional, sin markdown, sin explicaciones. Solo el JSON.
 
-El JSON debe tener EXACTAMENTE estas claves:
+ESQUEMA JSON exacto (usa null para campos vacíos):
 {
-  "birthday": "YYYY-MM-DD o null si no se menciona fecha de nacimiento",
-  "context_entries": [
-    { "key": "clave_en_español_sin_acentos", "value": "valor detectado" }
-  ],
-  "note": "texto libre para información que no clasifica en otros campos, o null",
-  "contact_name": "nombre si se menciona explícitamente otra persona distinta al contacto actual, o null"
+  "birthday": "<YYYY-MM-DD> | null",
+  "context_entries": [{ "key": "<string>", "value": "<string>" }],
+  "note": "<string> | null",
+  "contact_name": "<string> | null"
 }
 
 REGLAS para context_entries:
