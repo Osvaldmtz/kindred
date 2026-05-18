@@ -1,0 +1,127 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* Fonts */
+  --font-sans: var(--font-jakarta);
+  --font-heading: var(--font-jakarta);
+  --font-mono: var(--font-geist-mono);
+
+  /* Shadcn semantic tokens → Kindred CSS vars */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Radius scale (DESIGN.md) */
+  --radius-sm: calc(var(--radius) * 0.5);   /* 6px */
+  --radius-md: calc(var(--radius) * 0.75);  /* 9px */
+  --radius-lg: var(--radius);               /* 12px */
+  --radius-xl: calc(var(--radius) * 1.5);   /* 18px */
+  --radius-2xl: calc(var(--radius) * 1.75); /* 21px */
+  --radius-3xl: calc(var(--radius) * 2);    /* 24px — hero cards */
+  --radius-4xl: calc(var(--radius) * 2.5);  /* 30px */
+
+  /* Kindred extended tokens */
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-light: var(--primary-light);
+  --color-yellow: var(--yellow);
+  --color-surface-dim: var(--surface-dim);
+  --color-surface-bright: var(--surface-bright);
+  --color-surface-low: var(--surface-container-low);
+  --color-surface-container: var(--surface-container);
+  --color-surface-high: var(--surface-container-high);
+  --color-surface-highest: var(--surface-container-highest);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+
+  /* Sidebar */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  /* ─── KINDRED DESIGN SYSTEM ─────────────────────────────────── */
+  /* Source of truth: DESIGN.md (generated from Stitch/Material 3) */
+
+  /* Shadcn semantic vars — mapped to Kindred palette */
+  --background: #fff8f5;
+  --foreground: #1f1b18;
+  --card: #f5ece8;
+  --card-foreground: #1f1b18;
+  --popover: #ffffff;
+  --popover-foreground: #1f1b18;
+  --primary: #9c3e21;
+  --primary-foreground: #ffffff;
+  --secondary: #f5ece8;
+  --secondary-foreground: #9c3e21;
+  --muted: #efe6e2;
+  --muted-foreground: #56423c;
+  --accent: #fbf2ed;
+  --accent-foreground: #1f1b18;
+  --destructive: #ba1a1a;
+  --border: #ddc0b9;
+  --input: #f5ece8;
+  --ring: #9c3e21;
+  --radius: 0.75rem;
+
+  /* Kindred extended tokens */
+  --primary-dark: #802a0d;
+  --primary-light: #fbf2ed;
+  --yellow: #ffd33d;
+  --surface-dim: #e1d8d4;
+  --surface-bright: #fff8f5;
+  --surface-container-low: #fbf2ed;
+  --surface-container: #f5ece8;
+  --surface-container-high: #efe6e2;
+  --surface-container-highest: #eae1dc;
+  --on-surface-variant: #56423c;
+  --outline: #8a726b;
+  --outline-variant: #ddc0b9;
+
+  /* Sidebar */
+  --sidebar: #fbf2ed;
+  --sidebar-foreground: #1f1b18;
+  --sidebar-primary: #9c3e21;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f5ece8;
+  --sidebar-accent-foreground: #1f1b18;
+  --sidebar-border: #ddc0b9;
+  --sidebar-ring: #9c3e21;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans antialiased;
+  }
+}
