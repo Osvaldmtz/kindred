@@ -84,7 +84,6 @@ export function VoiceRecorderSheet({
       setSeconds(0);
       setState("idle");
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   // Timer
