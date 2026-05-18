@@ -425,3 +425,13 @@ export type ContactBriefContent = {
   carnegie_tips: string[]
   warning: string | null
 }
+
+export type ContactContext = {
+  id: string;
+  user_id: string;
+  contact_id: string;
+  key: string;
+  value: string;
+  source: "voice" | "manual";
+  created_at: string;
+};
