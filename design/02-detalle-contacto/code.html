@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#802a0d",
+                        "inverse-surface": "#34302d",
+                        "tertiary": "#5d5c57",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed": "#3a0a00",
+                        "surface-tint": "#9f4023",
+                        "surface-container-highest": "#eae1dc",
+                        "outline-variant": "#ddc0b9",
+                        "primary-container": "#bc5636",
+                        "on-secondary-container": "#626361",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#e3e2df",
+                        "surface": "#fff8f5",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#c7c6c4",
+                        "secondary-container": "#e0e0dd",
+                        "on-tertiary-container": "#fdffdd",
+                        "on-surface": "#1f1b18",
+                        "secondary": "#5e5f5c",
+                        "on-secondary-fixed-variant": "#464745",
+                        "on-primary-container": "#fffbff",
+                        "surface-container-low": "#fbf2ed",
+                        "surface-dim": "#e1d8d4",
+                        "outline": "#8a726b",
+                        "tertiary-fixed": "#e5e2dc",
+                        "surface-container": "#f5ece8",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#fff8f5",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#efe6e2",
+                        "on-secondary-fixed": "#1b1c1a",
+                        "on-tertiary-fixed": "#1c1c18",
+                        "background": "#fff8f5",
+                        "inverse-primary": "#ffb59f",
+                        "on-background": "#1f1b18",
+                        "surface-bright": "#fff8f5",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#ffdbd1",
+                        "primary": "#9c3e21",
+                        "inverse-on-surface": "#f8efea",
+                        "tertiary-fixed-dim": "#c9c6c1",
+                        "on-tertiary-fixed-variant": "#474743",
+                        "primary-fixed-dim": "#ffb59f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-desktop": "40px",
+                        "stack-sm": "8px",
+                        "container-padding-mobile": "20px",
+                        "gutter": "16px",
+                        "stack-md": "16px",
+                        "stack-lg": "24px",
+                        "unit": "4px",
+                        "section-gap": "48px"
+                    },
+                    "fontFamily": {
+                        "body-main": ["Plus Jakarta Sans"],
+                        "card-name": ["Plus Jakarta Sans"],
+                        "button-label": ["Plus Jakarta Sans"],
+                        "meta-data": ["Plus Jakarta Sans"],
+                        "display-title": ["Plus Jakarta Sans"],
+                        "section-header": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-main": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "card-name": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "button-label": ["16px", {"lineHeight": "16px", "fontWeight": "600"}],
+                        "meta-data": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "display-title": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "section-header": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-main antialiased selection:bg-primary-fixed selection:text-primary">
+<!-- Hero Section & Navigation Controls -->
+<header class="relative w-full h-[397px] md:h-[486px] overflow-hidden">
+<img alt="María Tirado Barvo" class="w-full h-full object-cover object-top" data-alt="A professional Latin American woman in her 40s with a warm, genuine smile. She is wearing a soft cream-colored linen blazer, standing in a bright, sun-drenched architectural space with warm wood textures. The lighting is soft and golden, creating a serene wellness-focused atmosphere. The color palette is composed of soft terracottas, warm whites, and natural tones, reflecting a mindful and grounded lifestyle." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0tjey92TgNB3jHq5Doh63BvoPUOdG6_ddpWbnFM9Dl2BQWi2ygsFv8Sk48owzoJXi_WQ7JTKQd151ULzBb2tNroE6Dx3pTMV3j4A5oOcsfE24k-n6_bKDsA8u9ri7cjKoALlUrklDIylIeU1BailinnFBLDUxgSbo_tL4bw5hhCsjfQdPn0FeFCd0vN6p79J9CTR_lkREcStw0P7EQv06d3dPsjHzcTZt7rlEbPQ7NBV3Z184VNu5fk8CO5BxIv3TAaeXu4T0xeQ"/>
+<!-- Floating Navigation Controls -->
+<div class="absolute top-8 left-6 right-6 flex justify-between items-center z-10">
+<button class="w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-sm text-primary transition-transform active:scale-90">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<button class="w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-sm text-primary transition-transform active:scale-90">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+</header>
+<!-- Content Panel -->
+<main class="relative -mt-10 min-h-screen bg-surface rounded-t-[24px] pb-32">
+<!-- Junction Chip -->
+<div class="absolute -top-5 left-1/2 -translate-x-1/2">
+<div class="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border border-surface-container">
+<span class="material-symbols-outlined text-[18px] text-primary">calendar_today</span>
+<span class="text-meta-data font-meta-data text-on-surface">Hace 45 días</span>
+</div>
+</div>
+<section class="max-w-2xl mx-auto px-6 pt-12 text-center">
+<!-- Profile Header -->
+<h1 class="font-display-title text-[28px] leading-tight text-on-surface mb-2">María Tirado Barvo</h1>
+<div class="flex flex-wrap justify-center gap-x-3 text-meta-data font-meta-data text-on-surface-variant mb-8">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span>Cali</span>
+</div>
+<span class="opacity-30">•</span>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">cake</span>
+<span>14 jun</span>
+</div>
+<span class="opacity-30">•</span>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">stars</span>
+<span>Rotary</span>
+</div>
+</div>
+<!-- Action Row -->
+<div class="grid grid-cols-3 gap-4 mb-stack-lg">
+<button class="flex flex-col items-center gap-2 p-4 rounded-xl bg-surface-container-low transition-colors hover:bg-surface-container-high group">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">chat_bubble</span>
+<span class="font-button-label text-meta-data text-primary">Mensaje</span>
+</button>
+<button class="flex flex-col items-center gap-2 p-4 rounded-xl bg-surface-container-low transition-colors hover:bg-surface-container-high group">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">call</span>
+<span class="font-button-label text-meta-data text-primary">Llamar</span>
+</button>
+<button class="flex flex-col items-center gap-2 p-4 rounded-xl bg-surface-container-low transition-colors hover:bg-surface-container-high group">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">bolt</span>
+<span class="font-button-label text-meta-data text-primary">Brief IA</span>
+</button>
+</div>
+<!-- IA Brief Card -->
+<div class="bg-surface-container-low rounded-[20px] p-6 text-left mb-stack-lg">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-[20px]">magic_button</span>
+<h2 class="text-meta-data font-bold text-primary tracking-wide">BRIEF DE IA LISTO</h2>
+</div>
+<p class="text-body-main font-body-main text-on-surface-variant mb-4 line-clamp-2">
+                    María está liderando la nueva colecta de Rotary Cali. Su hijo mayor empezó la universidad la semana pasada en Bogotá.
+                </p>
+<a class="inline-flex items-center gap-1 text-button-label font-button-label text-primary hover:underline" href="#">
+                    Ver brief completo <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<!-- Tags Row -->
+<div class="flex flex-wrap gap-2 mb-stack-lg">
+<span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-meta-data font-meta-data">Rotary</span>
+<span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-meta-data font-meta-data">Filantropía</span>
+<span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-meta-data font-meta-data">Liderazgo</span>
+<span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-meta-data font-meta-data">Cali Valle</span>
+</div>
+<!-- Frequency Widget -->
+<div class="bg-surface-container-highest/30 rounded-[20px] p-6 text-left mb-stack-lg">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-section-header font-section-header text-on-surface">Frecuencia objetivo</h3>
+<span class="bg-white px-3 py-1 rounded-full text-meta-data font-bold text-primary border border-outline-variant">Cada 30 días</span>
+</div>
+<div class="w-full h-3 bg-surface-container rounded-full overflow-hidden mb-2">
+<div class="w-[60%] h-full bg-primary rounded-full"></div>
+</div>
+<div class="flex justify-between text-meta-data font-meta-data text-on-surface-variant">
+<span>Salud de conexión</span>
+<span class="text-primary font-bold">60%</span>
+</div>
+</div>
+<!-- Recent History -->
+<div class="text-left">
+<h3 class="text-section-header font-section-header text-on-surface mb-4">Historial reciente</h3>
+<div class="space-y-3">
+<div class="p-4 bg-surface-container-low rounded-xl flex items-start gap-4">
+<div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">calendar_today</span>
+</div>
+<div>
+<p class="font-card-name text-[16px] text-on-surface">Reunión de planificación Rotary</p>
+<p class="text-meta-data font-meta-data text-on-surface-variant">15 de Enero · Café Unido</p>
+</div>
+</div>
+<div class="p-4 bg-surface-container-low rounded-xl flex items-start gap-4">
+<div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">chat_bubble_outline</span>
+</div>
+<div>
+<p class="font-card-name text-[16px] text-on-surface">Mensaje de cumpleaños</p>
+<p class="text-meta-data font-meta-data text-on-surface-variant">14 de Junio · WhatsApp</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- FAB -->
+<button class="fixed bottom-8 right-6 w-14 h-14 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-105 active:scale-95 z-50">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">add</span>
+</button>
+</body></html>

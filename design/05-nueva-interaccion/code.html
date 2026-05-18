@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed-variant": "#802a0d",
+                    "inverse-surface": "#34302d",
+                    "tertiary": "#5d5c57",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed": "#3a0a00",
+                    "surface-tint": "#9f4023",
+                    "surface-container-highest": "#eae1dc",
+                    "outline-variant": "#ddc0b9",
+                    "primary-container": "#bc5636",
+                    "on-secondary-container": "#626361",
+                    "on-secondary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#e3e2df",
+                    "surface": "#fff8f5",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed-dim": "#c7c6c4",
+                    "secondary-container": "#e0e0dd",
+                    "on-tertiary-container": "#fdffdd",
+                    "on-surface": "#1f1b18",
+                    "secondary": "#5e5f5c",
+                    "on-secondary-fixed-variant": "#464745",
+                    "on-primary-container": "#fffbff",
+                    "surface-container-low": "#fbf2ed",
+                    "surface-dim": "#e1d8d4",
+                    "outline": "#8a726b",
+                    "tertiary-fixed": "#e5e2dc",
+                    "surface-container": "#f5ece8",
+                    "error": "#ba1a1a",
+                    "surface-variant": "#eae1dc",
+                    "tertiary-container": "#767470",
+                    "surface-container-high": "#efe6e2",
+                    "on-secondary-fixed": "#1b1c1a",
+                    "on-tertiary-fixed": "#1c1c18",
+                    "background": "#fff8f5",
+                    "inverse-primary": "#ffb59f",
+                    "on-background": "#1f1b18",
+                    "surface-bright": "#fff8f5",
+                    "on-error": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed": "#ffdbd1",
+                    "primary": "#9c3e21",
+                    "inverse-on-surface": "#f8efea",
+                    "tertiary-fixed-dim": "#c9c6c1",
+                    "on-tertiary-fixed-variant": "#474743",
+                    "primary-fixed-dim": "#ffb59f"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding-desktop": "40px",
+                    "stack-sm": "8px",
+                    "container-padding-mobile": "20px",
+                    "gutter": "16px",
+                    "stack-md": "16px",
+                    "stack-lg": "24px",
+                    "unit": "4px",
+                    "section-gap": "48px"
+            },
+            "fontFamily": {
+                    "body-main": ["Plus Jakarta Sans"],
+                    "card-name": ["Plus Jakarta Sans"],
+                    "button-label": ["Plus Jakarta Sans"],
+                    "meta-data": ["Plus Jakarta Sans"],
+                    "display-title": ["Plus Jakarta Sans"],
+                    "section-header": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "body-main": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "card-name": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "button-label": ["16px", {"lineHeight": "16px", "fontWeight": "600"}],
+                    "meta-data": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "display-title": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "section-header": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<!-- Background Content (Simulating the App Screen underneath) -->
+<div class="flex-grow flex flex-col blur-md">
+<header class="bg-primary pt-8 px-6 w-full h-48 flex items-start">
+<span class="material-symbols-outlined text-on-primary mr-4" data-icon="menu">menu</span>
+<h1 class="font-display-title text-display-title text-on-primary">Kindred</h1>
+</header>
+<main class="px-6 -mt-20 space-y-stack-lg">
+<div class="bg-surface-container rounded-xl p-6 h-40"></div>
+<div class="bg-surface-container rounded-xl p-6 h-40"></div>
+</main>
+</div>
+<!-- Overlay / Dimmer -->
+<div class="fixed inset-0 bg-on-surface/40 backdrop-blur-sm z-40"></div>
+<!-- Bottom Sheet -->
+<div class="fixed bottom-0 left-0 right-0 h-3/4 bg-surface rounded-t-[24px] z-50 flex flex-col shadow-2xl">
+<!-- Drag Handle -->
+<div class="w-full flex justify-center pt-3 pb-2">
+<div class="w-10 h-1 bg-outline-variant rounded-full"></div>
+</div>
+<!-- Header -->
+<div class="flex items-center justify-between px-6 py-4">
+<button class="text-primary font-body-main">Cancelar</button>
+<h2 class="font-button-label text-button-label text-on-surface font-bold">Nueva interacción</h2>
+<button class="text-primary font-button-label font-bold">Guardar</button>
+</div>
+<!-- Scrollable Content -->
+<div class="flex-grow overflow-y-auto px-6 pb-12">
+<!-- User Subtitle -->
+<div class="flex items-center space-x-3 py-4 mb-stack-lg">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center">
+<span class="text-primary font-bold text-sm">MT</span>
+</div>
+<p class="font-body-main text-on-surface-variant italic">con María Tirado</p>
+</div>
+<!-- TIPO Section -->
+<section class="mb-section-gap">
+<h3 class="font-meta-data text-meta-data text-on-surface-variant tracking-wider uppercase mb-stack-md">TIPO</h3>
+<div class="grid grid-cols-3 gap-3">
+<button class="flex flex-col items-center justify-center p-4 rounded-xl bg-surface-container-low border border-transparent hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined mb-1" data-icon="call">call</span>
+<span class="font-meta-data text-meta-data">Llamada</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 rounded-xl bg-surface-container-low border border-transparent hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined mb-1" data-icon="chat">chat</span>
+<span class="font-meta-data text-meta-data">Mensaje</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 rounded-xl bg-surface-container-low border border-transparent hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined mb-1" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-meta-data text-meta-data">WhatsApp</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 rounded-xl bg-surface-container-low border border-transparent hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined mb-1" data-icon="mail">mail</span>
+<span class="font-meta-data text-meta-data">Email</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 rounded-xl bg-surface-container-low border border-transparent hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined mb-1" data-icon="groups">groups</span>
+<span class="font-meta-data text-meta-data">Reunión</span>
+</button>
+<!-- Selected state for Café -->
+<button class="flex flex-col items-center justify-center p-4 rounded-xl bg-primary-fixed border-2 border-primary text-primary">
+<span class="material-symbols-outlined mb-1" data-icon="coffee" style="font-variation-settings: 'FILL' 1;">coffee</span>
+<span class="font-meta-data text-meta-data font-bold">Café</span>
+</button>
+</div>
+</section>
+<!-- CUÁNDO Section -->
+<section class="mb-section-gap">
+<h3 class="font-meta-data text-meta-data text-on-surface-variant tracking-wider uppercase mb-stack-md">CUÁNDO</h3>
+<div class="flex items-center justify-between p-4 bg-surface-container-low rounded-xl">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined text-primary" data-icon="calendar_today">calendar_today</span>
+<span class="font-body-main text-on-surface">Hoy · 8:30 PM</span>
+</div>
+<div class="flex space-x-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container-highest">
+<span class="material-symbols-outlined text-sm" data-icon="remove">remove</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container-highest">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</section>
+<!-- NOTA Section -->
+<section class="mb-section-gap">
+<h3 class="font-meta-data text-meta-data text-on-surface-variant tracking-wider uppercase mb-stack-md">NOTA</h3>
+<textarea class="w-full h-32 p-4 bg-surface-container-low border-none rounded-xl font-body-main text-on-surface placeholder-on-surface-variant focus:ring-2 focus:ring-primary outline-none resize-none" placeholder="¿De qué hablamos? ¿Algo importante que recordar?"></textarea>
+</section>
+<!-- PRINCIPIOS Section -->
+<section>
+<div class="flex items-center justify-between mb-stack-md cursor-pointer">
+<h3 class="font-meta-data text-meta-data text-on-surface-variant tracking-wider uppercase">PRINCIPIOS APLICADOS</h3>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="expand_more">expand_more</span>
+</div>
+<div class="flex flex-wrap gap-2">
+<button class="px-4 py-2 rounded-full bg-primary/10 text-primary border border-primary/20 font-meta-data text-sm">Escucha Activa</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-highest text-on-surface-variant font-meta-data text-sm">Vulnerabilidad</button>
+<button class="px-4 py-2 rounded-full bg-primary/10 text-primary border border-primary/20 font-meta-data text-sm">Soporte Emocional</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-highest text-on-surface-variant font-meta-data text-sm">Reciprocidad</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-highest text-on-surface-variant font-meta-data text-sm">Follow-up</button>
+</div>
+</section>
+</div>
+</div>
+<!-- Hidden Bottom Nav for standard screen presence logic -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 h-20 bg-surface md:hidden invisible">
+<div class="flex flex-col items-center justify-center text-primary font-bold">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-button-label text-button-label">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-button-label text-button-label">People</span>
+</div>
+</nav>
+</body></html>

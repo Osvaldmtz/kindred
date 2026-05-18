@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed-variant": "#802a0d",
+                    "inverse-surface": "#34302d",
+                    "tertiary": "#5d5c57",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed": "#3a0a00",
+                    "surface-tint": "#9f4023",
+                    "surface-container-highest": "#eae1dc",
+                    "outline-variant": "#ddc0b9",
+                    "primary-container": "#bc5636",
+                    "on-secondary-container": "#626361",
+                    "on-secondary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#e3e2df",
+                    "surface": "#fff8f5",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed-dim": "#c7c6c4",
+                    "secondary-container": "#e0e0dd",
+                    "on-tertiary-container": "#fdffdd",
+                    "on-surface": "#1f1b18",
+                    "secondary": "#5e5f5c",
+                    "on-secondary-fixed-variant": "#464745",
+                    "on-primary-container": "#fffbff",
+                    "surface-container-low": "#fbf2ed",
+                    "surface-dim": "#e1d8d4",
+                    "outline": "#8a726b",
+                    "tertiary-fixed": "#e5e2dc",
+                    "surface-container": "#f5ece8",
+                    "error": "#ba1a1a",
+                    "surface-variant": "#eae1dc",
+                    "tertiary-container": "#767470",
+                    "surface-container-high": "#efe6e2",
+                    "on-secondary-fixed": "#1b1c1a",
+                    "on-tertiary-fixed": "#1c1c18",
+                    "background": "#fff8f5",
+                    "inverse-primary": "#ffb59f",
+                    "on-background": "#1f1b18",
+                    "surface-bright": "#fff8f5",
+                    "on-error": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed": "#ffdbd1",
+                    "primary": "#9c3e21",
+                    "inverse-on-surface": "#f8efea",
+                    "tertiary-fixed-dim": "#c9c6c1",
+                    "on-tertiary-fixed-variant": "#474743",
+                    "primary-fixed-dim": "#ffb59f"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding-desktop": "40px",
+                    "stack-sm": "8px",
+                    "container-padding-mobile": "20px",
+                    "gutter": "16px",
+                    "stack-md": "16px",
+                    "stack-lg": "24px",
+                    "unit": "4px",
+                    "section-gap": "48px"
+            },
+            "fontFamily": {
+                    "body-main": ["Plus Jakarta Sans"],
+                    "card-name": ["Plus Jakarta Sans"],
+                    "button-label": ["Plus Jakarta Sans"],
+                    "meta-data": ["Plus Jakarta Sans"],
+                    "display-title": ["Plus Jakarta Sans"],
+                    "section-header": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "body-main": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "card-name": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "button-label": ["16px", {"lineHeight": "16px", "fontWeight": "600"}],
+                    "meta-data": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "display-title": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "section-header": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col overflow-x-hidden">
+<!-- TopAppBar Mock Header (30% Height) -->
+<header class="bg-primary pt-12 pb-24 px-6 flex flex-col items-center relative text-on-primary">
+<!-- Status Bar Mock -->
+<div class="absolute top-4 left-0 right-0 px-8 flex justify-between items-center opacity-90 text-[14px] font-bold">
+<span>9:41</span>
+<div class="flex gap-1 items-center">
+<span class="material-symbols-outlined text-[16px]">signal_cellular_alt</span>
+<span class="material-symbols-outlined text-[16px]">wifi</span>
+<span class="material-symbols-outlined text-[16px]">battery_full</span>
+</div>
+</div>
+<div class="w-full flex justify-between items-center mb-6">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center text-primary font-bold shadow-sm">
+                OM
+            </div>
+<span class="material-symbols-outlined opacity-80" data-icon="search">search</span>
+</div>
+<h1 class="font-display-title text-display-title mb-1">Hoy</h1>
+<p class="text-on-primary/80 font-meta-data text-meta-data">Domingo, 10 de mayo</p>
+</header>
+<!-- Main Content Panel -->
+<main class="flex-1 bg-surface-container-lowest -mt-12 rounded-t-[24px] relative px-6 pt-10 pb-32">
+<!-- Floating Insight Pill -->
+<div class="absolute -top-7 left-1/2 -translate-x-1/2 bg-yellow-100 text-[#6B5100] px-6 py-3 rounded-full flex items-center gap-2 shadow-lg border border-yellow-200/50 whitespace-nowrap z-10">
+<span class="material-symbols-outlined text-amber-500" style="font-variation-settings: 'FILL' 1;">Sparkle</span>
+<span class="font-button-label text-button-label">5 personas esperan tu mensaje</span>
+</div>
+<!-- Section: Atrasados -->
+<section class="mb-stack-lg">
+<div class="flex items-center gap-3 mb-stack-md">
+<h2 class="font-section-header text-section-header text-on-surface">Atrasados</h2>
+<div class="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-on-primary text-[14px] font-bold">3</div>
+</div>
+<div class="space-y-gutter">
+<!-- Person Card 1 -->
+<div class="bg-surface-container rounded-[20px] p-stack-lg flex items-center gap-stack-md transition-all active:scale-[0.98]">
+<div class="w-14 h-14 rounded-full bg-[#EAE7E1] flex items-center justify-center text-on-surface-variant font-bold text-lg">MT</div>
+<div class="flex-1">
+<h3 class="font-card-name text-card-name text-on-surface">María Tirado</h3>
+<p class="text-on-surface-variant font-meta-data text-meta-data">Rotary · Hace 45 días</p>
+</div>
+<span class="bg-yellow-100 text-amber-800 px-3 py-1 rounded-full font-meta-data text-[12px] font-bold">Atrasado</span>
+</div>
+<!-- Person Card 2 -->
+<div class="bg-surface-container rounded-[20px] p-stack-lg flex items-center gap-stack-md transition-all active:scale-[0.98]">
+<div class="w-14 h-14 rounded-full bg-[#DDC0B9] flex items-center justify-center text-on-primary font-bold text-lg">SC</div>
+<div class="flex-1">
+<h3 class="font-card-name text-card-name text-on-surface">Samuel Chin</h3>
+<p class="text-on-surface-variant font-meta-data text-meta-data">Universidad · Hace 32 días</p>
+</div>
+<span class="bg-yellow-100 text-amber-800 px-3 py-1 rounded-full font-meta-data text-[12px] font-bold">Atrasado</span>
+</div>
+<!-- Person Card 3 -->
+<div class="bg-surface-container rounded-[20px] p-stack-lg flex items-center gap-stack-md transition-all active:scale-[0.98]">
+<div class="w-14 h-14 rounded-full bg-[#C7C6C4] flex items-center justify-center text-on-surface font-bold text-lg">AV</div>
+<div class="flex-1">
+<h3 class="font-card-name text-card-name text-on-surface">Any Vázquez</h3>
+<p class="text-on-surface-variant font-meta-data text-meta-data">Gym · Hace 28 días</p>
+</div>
+<span class="bg-yellow-100 text-amber-800 px-3 py-1 rounded-full font-meta-data text-[12px] font-bold">Atrasado</span>
+</div>
+</div>
+</section>
+<!-- Section: Esta semana -->
+<section class="mb-stack-lg">
+<h2 class="font-section-header text-section-header text-on-surface mb-stack-md">Esta semana</h2>
+<div class="space-y-gutter">
+<div class="bg-surface-container rounded-[20px] p-stack-lg flex items-center gap-stack-md">
+<div class="w-14 h-14 rounded-full bg-[#F5F2ED] border-2 border-primary-fixed flex items-center justify-center text-primary font-bold text-lg overflow-hidden">
+<img alt="Santiago" class="w-full h-full object-cover" data-alt="A portrait of a smiling young Hispanic man with short dark hair and a neat beard, wearing a casual linen shirt. The background is a soft, out-of-focus garden with warm sunlight filtering through leaves. The lighting is bright and natural, reflecting a soft minimalist aesthetic with warm terracotta and cream tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLNHdA_EdpFcMYyoek6l-aEah1hrbLRpt0w1aX-wOFWsYWG40oaCcFzOHprDhtD4UB9xejpyhYleA432jEZMnF9In9auKaVEgq4XE7k2iuBaNa5iU7r3b5ac4d0d2HTo7J5JEIVVdC_9_PNGUiN6rIY_8wKm_OvrJsJg40OjAqVdrruyhf7uCyJtplkFzOLIpCN_WHZdGxQsQmelvHA9MXfFOE5OgCtP9Bpdi5ZubfXt2mpEiEwNI4P4Y7yQVucOBpzl8es6yXxTE"/>
+</div>
+<div class="flex-1">
+<h3 class="font-card-name text-card-name text-on-surface">Santiago Pérez</h3>
+<p class="text-on-surface-variant font-meta-data text-meta-data">Llamada programada · Jueves</p>
+</div>
+<span class="material-symbols-outlined text-primary" data-icon="call">call</span>
+</div>
+<div class="bg-surface-container rounded-[20px] p-stack-lg flex items-center gap-stack-md">
+<div class="w-14 h-14 rounded-full bg-[#F5F2ED] border-2 border-primary-fixed flex items-center justify-center text-primary font-bold text-lg overflow-hidden">
+<img alt="Ilse" class="w-full h-full object-cover" data-alt="A close-up studio portrait of a woman with a kind expression and wavy brown hair, looking directly at the camera. She is in a high-key setting with soft, diffused lighting that eliminates harsh shadows. The color palette consists of neutral beiges and soft terracotta accents, matching a modern social wellness app style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxb69NiDODX-Sp7zBIBR5SqBdt3kIGEm1paM_0f6EA8-UfVfsDsijMt1DlnLUG3yv5zfq3NrIPsvJCC7YTJlCRQHXTJqbNmwiOe_HSwLAQlBuPJQ4iUoSoVqHSvWNQ8x4lSd29AyZOAW08KxMCjz9W9vTdKagdn6FpylgQwmNeUoolTOUCSiySGINuKAE75AefkNBDDzzwMV5-F4dp_A09mmzPKAew7hSsQMDy8eqDTAPc0K1cWI8je8cRXGM8SvNDLPE33eVfslQ"/>
+</div>
+<div class="flex-1">
+<h3 class="font-card-name text-card-name text-on-surface">Ilse Vieyra</h3>
+<p class="text-on-surface-variant font-meta-data text-meta-data">Café · Sábado</p>
+</div>
+<span class="material-symbols-outlined text-primary" data-icon="local_cafe">local_cafe</span>
+</div>
+</div>
+</section>
+<!-- Section: Cumpleaños -->
+<section class="mb-stack-lg">
+<h2 class="font-section-header text-section-header text-on-surface mb-stack-md">Cumpleaños esta semana</h2>
+<div class="bg-primary-fixed text-on-primary-fixed-variant rounded-[20px] p-stack-lg flex items-center gap-stack-md relative overflow-hidden">
+<div class="z-10 flex items-center gap-stack-md flex-1">
+<div class="w-14 h-14 rounded-full bg-white flex items-center justify-center text-primary-fixed-dim shadow-sm">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">cake</span>
+</div>
+<div class="flex-1">
+<h3 class="font-card-name text-card-name text-on-surface">Daniel Hernández</h3>
+<p class="text-on-primary-fixed-variant/70 font-meta-data text-meta-data">Mañana · 28 años</p>
+</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-full text-button-label font-button-label">Felicitar</button>
+</div>
+<!-- Subtle decorative graphic -->
+<div class="absolute right-[-10px] bottom-[-10px] opacity-10 rotate-12">
+<span class="material-symbols-outlined text-[120px]">celebration</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating Action Button (Contextual for Home) -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-primary text-on-primary rounded-2xl shadow-xl flex items-center justify-center z-[60] transition-transform active:scale-90">
+<span class="material-symbols-outlined text-[32px]">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 h-20 bg-surface border-t border-outline-variant">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center text-primary font-bold transition-all duration-300 scale-110" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-button-label text-[12px] mt-1">Home</span>
+</a>
+<!-- People -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-xl px-2 py-1" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-button-label text-[12px] mt-1">People</span>
+</a>
+<!-- Add (Visual placeholder, centered FAB often replaces this in some designs but here we use the icon as per JSON) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-xl px-2 py-1" href="#">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-button-label text-[12px] mt-1">Add</span>
+</a>
+<!-- Groups -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-xl px-2 py-1" href="#">
+<span class="material-symbols-outlined">hub</span>
+<span class="font-button-label text-[12px] mt-1">Groups</span>
+</a>
+<!-- Settings -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-xl px-2 py-1" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-button-label text-[12px] mt-1">Settings</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "on-error-container": "#93000a",
+                  "on-primary-fixed-variant": "#802a0d",
+                  "inverse-surface": "#34302d",
+                  "tertiary": "#5d5c57",
+                  "error-container": "#ffdad6",
+                  "on-primary-fixed": "#3a0a00",
+                  "surface-tint": "#9f4023",
+                  "surface-container-highest": "#eae1dc",
+                  "outline-variant": "#ddc0b9",
+                  "primary-container": "#bc5636",
+                  "on-secondary-container": "#626361",
+                  "on-secondary": "#ffffff",
+                  "on-primary": "#ffffff",
+                  "secondary-fixed": "#e3e2df",
+                  "surface": "#fff8f5",
+                  "on-tertiary": "#ffffff",
+                  "secondary-fixed-dim": "#c7c6c4",
+                  "secondary-container": "#e0e0dd",
+                  "on-tertiary-container": "#fdffdd",
+                  "on-surface": "#1f1b18",
+                  "secondary": "#5e5f5c",
+                  "on-secondary-fixed-variant": "#464745",
+                  "on-primary-container": "#fffbff",
+                  "surface-container-low": "#fbf2ed",
+                  "surface-dim": "#e1d8d4",
+                  "outline": "#8a726b",
+                  "tertiary-fixed": "#e5e2dc",
+                  "surface-container": "#f5ece8",
+                  "error": "#ba1a1a",
+                  "surface-variant": "#eae1dc",
+                  "tertiary-container": "#767470",
+                  "surface-container-high": "#efe6e2",
+                  "on-secondary-fixed": "#1b1c1a",
+                  "on-tertiary-fixed": "#1c1c18",
+                  "background": "#fff8f5",
+                  "inverse-primary": "#ffb59f",
+                  "on-background": "#1f1b18",
+                  "surface-bright": "#fff8f5",
+                  "on-error": "#ffffff",
+                  "surface-container-lowest": "#ffffff",
+                  "primary-fixed": "#ffdbd1",
+                  "primary": "#9c3e21",
+                  "inverse-on-surface": "#f8efea",
+                  "tertiary-fixed-dim": "#c9c6c1",
+                  "on-tertiary-fixed-variant": "#474743",
+                  "primary-fixed-dim": "#ffb59f"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "container-padding-desktop": "40px",
+                  "stack-sm": "8px",
+                  "container-padding-mobile": "20px",
+                  "gutter": "16px",
+                  "stack-md": "16px",
+                  "stack-lg": "24px",
+                  "unit": "4px",
+                  "section-gap": "48px"
+          },
+          "fontFamily": {
+                  "body-main": ["Plus Jakarta Sans"],
+                  "card-name": ["Plus Jakarta Sans"],
+                  "button-label": ["Plus Jakarta Sans"],
+                  "meta-data": ["Plus Jakarta Sans"],
+                  "display-title": ["Plus Jakarta Sans"],
+                  "section-header": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+                  "body-main": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                  "card-name": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                  "button-label": ["16px", {"lineHeight": "16px", "fontWeight": "600"}],
+                  "meta-data": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                  "display-title": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                  "section-header": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-primary min-h-screen font-body-main text-on-surface">
+<!-- TopAppBar Component -->
+<header class="bg-primary text-on-primary docked full-width top-0 h-48 flex items-start pt-8 px-6 w-full fixed z-40">
+<div class="flex flex-col w-full">
+<div class="flex items-center justify-between w-full mb-4">
+<button class="material-symbols-outlined transition-transform duration-200 active:scale-95 hover:bg-primary-container/20 p-2 rounded-full">filter_list</button>
+<h1 class="font-display-title text-[28px] font-bold text-on-primary">Contactos</h1>
+<button class="material-symbols-outlined transition-transform duration-200 active:scale-95 hover:bg-primary-container/20 p-2 rounded-full">search</button>
+</div>
+<p class="text-on-primary/70 font-meta-data text-center w-full">47 personas</p>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="mt-40 bg-surface rounded-t-[24px] min-h-screen relative z-10 pb-24 shadow-2xl">
+<!-- Search Bar -->
+<div class="px-6 pt-8 pb-4">
+<div class="bg-surface-container h-[56px] rounded-xl flex items-center px-4 gap-3">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-main w-full placeholder:text-outline-variant" placeholder="Buscar por nombre..." type="text"/>
+</div>
+</div>
+<!-- Filter Chips -->
+<div class="flex gap-2 overflow-x-auto px-6 pb-6 no-scrollbar">
+<button class="bg-primary text-on-primary px-5 py-2 rounded-full font-button-label text-button-label whitespace-nowrap">Todos</button>
+<button class="bg-surface-container text-on-surface-variant px-5 py-2 rounded-full font-button-label text-button-label whitespace-nowrap hover:bg-surface-container-highest transition-colors">Familia</button>
+<button class="bg-surface-container text-on-surface-variant px-5 py-2 rounded-full font-button-label text-button-label whitespace-nowrap hover:bg-surface-container-highest transition-colors">Cliente</button>
+<button class="bg-surface-container text-on-surface-variant px-5 py-2 rounded-full font-button-label text-button-label whitespace-nowrap hover:bg-surface-container-highest transition-colors">Amigos</button>
+<button class="bg-surface-container text-on-surface-variant px-5 py-2 rounded-full font-button-label text-button-label whitespace-nowrap hover:bg-surface-container-highest transition-colors">Trabajo</button>
+</div>
+<!-- Contacts List -->
+<div class="px-6 flex flex-col gap-4">
+<!-- Contact Card 1 -->
+<div class="bg-surface-container p-5 rounded-[20px] flex items-center justify-between">
+<div class="flex items-center gap-4">
+<img alt="Ana Silva" class="w-12 h-12 rounded-full bg-primary-fixed" data-alt="A close-up studio portrait of a warm, smiling woman with short dark hair and elegant glasses. The image is bathed in soft, diffused morning light within a minimalist, high-end domestic setting. The color palette is composed of soft terracotta and creamy off-whites, creating a peaceful and approachable wellness-oriented aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtQjRvAJxVgghp_e9smBcye4oH5p0gW767b5f25gOtzsI6EUSQixi_C1BfK19xJXhniA95zQef_D8CkMXRoEdIOcKQ9kYV8DOfIqN5D7krl4SdEgydB0I6lgfZHjznwi92SJe2zFsEYBIoxYQQokuagY9DCEpE2CP68--MaLyXZG1lnXMKqFy8xt7cprCNEps6dgQOaCb9eBNrzhz0ZLzNkdrhxAt1OHXvaf5cPPdjYAlrEUckOrR1Etl0hyAg_glgmm5hUaRm6Rk"/>
+<div>
+<h3 class="font-card-name text-card-name text-on-surface">Ana Silva</h3>
+<p class="font-meta-data text-meta-data text-outline">Familia</p>
+</div>
+</div>
+<div class="bg-[#FFEBB2] text-[#806200] px-3 py-1 rounded-full font-meta-data text-xs font-bold uppercase tracking-wider">Atrasado</div>
+</div>
+<!-- Contact Card 2 -->
+<div class="bg-surface-container p-5 rounded-[20px] flex items-center justify-between">
+<div class="flex items-center gap-4">
+<img alt="Marco Rossi" class="w-12 h-12 rounded-full bg-secondary-fixed" data-alt="A high-quality professional headshot of a man with a friendly expression and a well-groomed beard. He is positioned against a clean, warm gray background. The lighting is soft and flattering, highlighting a modern, minimalist vibe. The overall atmosphere conveys reliability and warmth, perfectly aligned with a personal relationship management brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJJc60_OOkifi-hoaVO2C3p8fTeRNOPs5qIt-VmoTlQAdWoCCIIR7znHqKhzuP836n7_1grUBZujrv5TiJ8LUdi7zZCjI6YapfIFU7nvXoYu6YYW2VlPPK31NxpYK8EwPy0xLQ34kJ5mCEBWH_yVoFdEsjclIY7JX9rg0yKe7XAmTTqLTEW4hypjy0vpeDPmVZ1681AStMnAW4yNb4PxSc8ekU1Ah36PUCzQhGKpNjILqvtUGDkFRMQ8RearPkJKGeRj06aU4TgXw"/>
+<div>
+<h3 class="font-card-name text-card-name text-on-surface">Marco Rossi</h3>
+<p class="font-meta-data text-meta-data text-outline">Cliente</p>
+</div>
+</div>
+<div class="bg-outline-variant/30 text-on-surface-variant px-3 py-1 rounded-full font-meta-data text-xs font-medium">Hace 2 días</div>
+</div>
+<!-- Contact Card 3 -->
+<div class="bg-surface-container p-5 rounded-[20px] flex items-center justify-between">
+<div class="flex items-center gap-4">
+<img alt="Elena Chen" class="w-12 h-12 rounded-full bg-primary-fixed" data-alt="A portrait of a young professional woman with a calm and focused demeanor. She is set against a bright, airy architectural background with soft terracotta accents. The lighting is natural and high-key, emphasizing a clean and minimalist design language. The aesthetic is sophisticated yet grounded, reflecting a high-quality social wellness interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsgdeM8LnGxpVzaV-EERJKmBLPTfI-3h79WRLeHNfmG-1rNuJWIHXBI1x_TY7x0wV61FTAO9Xb2zMeu1tq5ssbXODSp1LdaVoCHS0AOzwNX47wikv6HviIhBzfVHYl6gzbrSYUejgdivJdOtEd8YvXN5REHe5Ea_0HNrVwbzBxWTVDgYD_fxsngxKLcOzLEy1DnzBa-CeO4ARV8Xwh_uwkAOVwIXoEVJRvx4oedxg5I1waM4B47jqJr-uB7DWOBa7wMbk2dVrSohI"/>
+<div>
+<h3 class="font-card-name text-card-name text-on-surface">Elena Chen</h3>
+<p class="font-meta-data text-meta-data text-outline">Trabajo</p>
+</div>
+</div>
+<div class="bg-outline-variant/30 text-on-surface-variant px-3 py-1 rounded-full font-meta-data text-xs font-medium">Hace 5 días</div>
+</div>
+<!-- Contact Card 4 -->
+<div class="bg-surface-container p-5 rounded-[20px] flex items-center justify-between">
+<div class="flex items-center gap-4">
+<img alt="Javier Mendez" class="w-12 h-12 rounded-full bg-secondary-fixed" data-alt="A professional and warm portrait of a middle-aged man with salt-and-pepper hair. The background is a soft-focus modern office with warm wooden textures and minimalist decor. The lighting is balanced and serene, utilizing a palette of warm earth tones. The image evokes a sense of trust and intentional connection within a premium digital environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDb7bJnk3Ev3ZdsgekTP4wPxa5zTVPpvmBSEgY6Acy4a6hRKiJi53VS_QZOEDCct6EMo_iOky6Z23-PTeKLKk2CwM5uLWAq8b-i6z5TsFpsUk-b0QriW-n1k4FGmOQezCxJdX7ywEw6ray_QrKW7TiLAOSHxPLHDaXy-JHe7npMOhFaaoDRJ6OY-L1eYE2LC5YngOWxXptJ7bVJ4gCCNvo_-ZFasUDHTTT5hv6sDwjly4aH-tUqOLRJ7T9RbcO6NUn18S85uc1kME4"/>
+<div>
+<h3 class="font-card-name text-card-name text-on-surface">Javier Mendez</h3>
+<p class="font-meta-data text-meta-data text-outline">Amigos</p>
+</div>
+</div>
+<div class="bg-[#FFEBB2] text-[#806200] px-3 py-1 rounded-full font-meta-data text-xs font-bold uppercase tracking-wider">Atrasado</div>
+</div>
+<!-- Contact Card 5 -->
+<div class="bg-surface-container p-5 rounded-[20px] flex items-center justify-between">
+<div class="flex items-center gap-4">
+<img alt="Sofia Loren" class="w-12 h-12 rounded-full bg-primary-fixed" data-alt="A serene portrait of an older woman with silver hair and a joyful, peaceful expression. She is photographed in a bright, sun-drenched garden setting that feels organic and calm. The style is soft minimalism with a focus on warm humanist details. The lighting creates a gentle glow, reinforcing themes of connection and long-term relationship health." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1e3EGuXqS-tf1OmEzb_LBPVXnUp52D-gVxxO_AqpF18zV39g0RWOxAW4e5neEhbOZGzYKhyTqO0VEjS2Xz6uE91wxPzEPwhvT99SCm4Nd-h7azV4k9Mv_XW3EFoqGQBeEh_EASgx0Aefazm-T8XLCRYWG0_JOTYMvpl5fzwVizFi24avzGGKtAib2VCDG-aUzO4AMZx525PGRLPjN93B3jiEjISlS0yfwqsHlppYTiNeXAOfLtvyOLsaOQ7JCCuXIikqvVa2Jo6I"/>
+<div>
+<h3 class="font-card-name text-card-name text-on-surface">Sofia Loren</h3>
+<p class="font-meta-data text-meta-data text-outline">Familia</p>
+</div>
+</div>
+<div class="bg-outline-variant/30 text-on-surface-variant px-3 py-1 rounded-full font-meta-data text-xs font-medium">Hace 1 día</div>
+</div>
+<!-- Contact Card 6 -->
+<div class="bg-surface-container p-5 rounded-[20px] flex items-center justify-between">
+<div class="flex items-center gap-4">
+<img alt="Leo Thompson" class="w-12 h-12 rounded-full bg-secondary-fixed" data-alt="A charismatic young man with a creative look, set against a backdrop of soft geometric shapes in a modern loft. The lighting is artistic and warm, emphasizing a contemporary, wellness-focused design aesthetic. The color scheme is curated with terracotta and soft gray, creating an image that feels both vibrant and professionally polished." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCc4Io7Cw_3ire7xIOMTuwJm0DPGos_GUwP60rbVuHLfz2TRA_2RrfwP-7Yc8lswW-BixryOMMdOP5srajSd5UEypw2w8jiWx8u3PFeTTZgHwriNZfetuet4pqDqEmW-C-06PaTAe93upLNcqQzuXVaAd5bUc4CWKIiAczoX8yYUIhWZW3OupX7-lhjRzInOTncW3JxOHldsRo7azyR17BUlZdemDRP419WSZsxL4iDNX-p3rp1C3GYYWJAqIW2jIPoFynjujyeXyk"/>
+<div>
+<h3 class="font-card-name text-card-name text-on-surface">Leo Thompson</h3>
+<p class="font-meta-data text-meta-data text-outline">Cliente</p>
+</div>
+</div>
+<div class="bg-outline-variant/30 text-on-surface-variant px-3 py-1 rounded-full font-meta-data text-xs font-medium">Hace 3 días</div>
+</div>
+<!-- Contact Card 7 -->
+<div class="bg-surface-container p-5 rounded-[20px] flex items-center justify-between">
+<div class="flex items-center gap-4">
+<img alt="Nora Reed" class="w-12 h-12 rounded-full bg-primary-fixed" data-alt="A graceful portrait of a woman in a minimalist white studio. The lighting is high-key and soft, creating a breathable and airy atmosphere. Her expression is calm and sincere. The visual style uses tonal layering of soft creams and warm browns, perfectly capturing the humanist and intentional outreach spirit of the brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2OxgimpdtUPD8OHmpoVAlDjZXvwm7tgE9JNp18wi9IMqwC0_Yt7OKbV4PBQjyCI4sZf5ygl1lT0cAbNnNKPlD5l1YTb5xTRV_aFFwO6VW_SVEuq6RBNI6bCPBFtO07uvUbmydavYMAY8pDnLUE-F2mQveQBS3hbkwKVkhRn2i_V72Zksb3NerT16G1RiNn0X-43LK3kShMRTCeOYZOjVoy9fC6rditwVJQTm-4Cdm-X86w1ZyyxKamuPzhuvTi1fpCPcYiVghXEo"/>
+<div>
+<h3 class="font-card-name text-card-name text-on-surface">Nora Reed</h3>
+<p class="font-meta-data text-meta-data text-outline">Trabajo</p>
+</div>
+</div>
+<div class="bg-[#FFEBB2] text-[#806200] px-3 py-1 rounded-full font-meta-data text-xs font-bold uppercase tracking-wider">Atrasado</div>
+</div>
+</div>
+</main>
+<!-- FAB -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center z-50 transition-all duration-300 active:scale-110">
+<span class="material-symbols-outlined text-3xl">person_add</span>
+</button>
+<!-- BottomNavBar Component -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 h-20 bg-surface rounded-t-xl border-t border-outline-variant">
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-highest transition-colors px-4 py-1 rounded-lg">
+<span class="material-symbols-outlined">home</span>
+<span class="font-button-label text-[10px]">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary font-bold scale-110 transition-all duration-300 px-4 py-1 rounded-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
+<span class="font-button-label text-[10px]">People</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-highest transition-colors px-4 py-1 rounded-lg">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-button-label text-[10px]">Add</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-highest transition-colors px-4 py-1 rounded-lg">
+<span class="material-symbols-outlined">hub</span>
+<span class="font-button-label text-[10px]">Groups</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-highest transition-colors px-4 py-1 rounded-lg">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-button-label text-[10px]">Settings</span>
+</button>
+</nav>
+<style>
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</body></html>
